@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+
+<html lang="bn">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title id="page-head-title">অন্ধকার জগৎ আল্ট্রা এইচডি</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script><script src="//libtl.com/sdk.js" data-zone="11947320" data-sdk="show_11947320"></script><script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-analytics-compat.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@500;600;700;800;900&amp;family=Plus+Jakarta+Sans:wght@600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root { 
+            --primary: #00e5ff; 
+            --primary-glow: rgba(0, 229, 255, 0.65); 
+            --bg-body: #050814;
+            --card-bg: #0b1226; 
+            --card-border: rgba(0, 229, 255, 0.25); 
+            --text-main: #ffffff; 
+            --text-sub: #b0c4de;
+            --grad-blue: linear-gradient(135deg, #0052d4 0%, #4364f7 50%, #00e5ff 100%);
+            --grad-red: linear-gradient(135deg, #ff0844 0%, #ff4e50 100%);
+            --grad-green: linear-gradient(135deg, #00f260 0%, #0575e6 100%);
+            --grad-gold: linear-gradient(135deg, #ffe000 0%, #799f0c 100%);
+            --grad-purple-pink: linear-gradient(90deg, #b224ef 0%, #7579ff 100%);
+            --neon-shadow: 0 0 20px rgba(0, 229, 255, 0.35);
+        }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
+        html, body { overscroll-behavior: none !important; scroll-behavior: smooth; }
+        
+        body { 
+            background: var(--bg-body) radial-gradient(circle at 50% -10%, #152754 0%, #050814 85%);
+            color: var(--text-main); 
+            font-family: 'Hind Siliguri', 'Plus Jakarta Sans', sans-serif; 
+            font-size: 16px; 
+            font-weight: 700;
+            padding-bottom: 125px !important; 
+            overflow-x: hidden; 
+            min-height: 100vh; 
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        b, strong, h1, h2, h3, h4, h5, h6 { font-weight: 800; }
+
+        /* =================== PRELOADER =================== */
+        #app-preloader {
+            position: fixed;
+            inset: 0;
+            background: #05070f radial-gradient(circle at center, #0e1b3d 0%, #05070f 85%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 999999999;
+            transition: opacity 0.5s cubic-bezier(0.2, 0.9, 0.3, 1), visibility 0.5s ease;
+        }
+
+        #app-preloader.hide-loader {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .preloader-bg-glow {
+            position: absolute;
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, rgba(0, 229, 255, 0.18) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .preloader-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            z-index: 2;
+        }
+
+        .ring-wrapper {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .outer-ring {
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 3px dotted #00d2ff;
+            animation: spin-clockwise 8s linear infinite;
+            box-shadow: 0 0 16px rgba(0, 210, 255, 0.35);
+        }
+
+        .inner-ring {
+            position: absolute;
+            width: 108px;
+            height: 108px;
+            border-radius: 50%;
+            border: 3px dotted #ff8c37;
+            animation: spin-counter 6s linear infinite;
+            box-shadow: 0 0 16px rgba(255, 140, 55, 0.35);
+        }
+
+        .center-circle {
+            position: relative;
+            width: 78px;
+            height: 78px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7928ca 0%, #3b82f6 50%, #00d2ff 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.6);
+            animation: pulse-preloader 2s ease-in-out infinite alternate;
+        }
+
+        .letter {
+            color: #ffffff;
+            font-size: 38px;
+            font-weight: 900;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            user-select: none;
+        }
+
+        .bot-title {
+            color: #e2e8f0;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            text-shadow: 0 0 12px rgba(0, 210, 255, 0.7);
+            animation: fade-glow-preloader 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes spin-clockwise { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes spin-counter { 0% { transform: rotate(0deg); } 100% { transform: rotate(-360deg); } }
+        @keyframes pulse-preloader {
+            0% { transform: scale(0.96); box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
+            100% { transform: scale(1.04); box-shadow: 0 0 32px rgba(0, 210, 255, 0.8); }
+        }
+        @keyframes fade-glow-preloader {
+            0% { opacity: 0.8; text-shadow: 0 0 8px rgba(0, 210, 255, 0.4); }
+            100% { opacity: 1; text-shadow: 0 0 18px rgba(0, 210, 255, 0.9); }
+        }
+
+        /* =================================================================== */
+        @keyframes subtleFadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .content-tab { animation: subtleFadeUp 0.2s cubic-bezier(0.2, 0.9, 0.3, 1) forwards; }
+        
+        @keyframes universalGlowSweep { 0% { left: -140%; } 50%, 100% { left: 160%; } }
+        @keyframes subtleCardShimmer { 0% { transform: translateX(-160%) skewX(-20deg); } 35%, 100% { transform: translateX(240%) skewX(-20deg); } }
+
+        .shimmer-card-effect { position: relative; overflow: hidden !important; }
+        .shimmer-card-effect::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+            animation: subtleCardShimmer 4s infinite ease-in-out; pointer-events: none; z-index: 1;
+        }
+        .shimmer-card-effect > * { position: relative; z-index: 2; }
+
+        .btn-unlock-blue, .btn-withdraw-green, .circle-btn, .nav-item, .btn-earn-gradient, .btn-share-ref, .btn-action-cyan, .btn-action-gold, .page-pill-btn, .sim-opt-pill, .cat-filter-pill {
+            transition: transform 0.14s ease, filter 0.18s ease, box-shadow 0.2s ease; position: relative; font-weight: 800;
+        }
+        .btn-unlock-blue:active, .btn-withdraw-green:active, .circle-btn:active, .btn-earn-gradient:active, .btn-share-ref:active, .btn-action-cyan:active, .btn-action-gold:active, .sim-opt-pill:active, .cat-filter-pill:active { 
+            transform: scale(0.96); 
+        }
+
+        .btn-unlock-blue, .btn-withdraw-green, .btn-earn-gradient, .btn-share-ref, .btn-action-cyan, .btn-action-gold, .sim-opt-pill.active, .page-pill-btn.active, .cat-filter-pill.active {
+            overflow: hidden !important; position: relative;
+        }
+
+        .btn-unlock-blue::after, .btn-withdraw-green::after, .btn-earn-gradient::after, .btn-share-ref::after, .btn-action-cyan::after, .btn-action-gold::after, .sim-opt-pill.active::after, .page-pill-btn.active::after, .cat-filter-pill.active::after {
+            content: ''; position: absolute; top: 0; left: -140%; width: 70%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            animation: universalGlowSweep 2.5s infinite ease-in-out; pointer-events: none; z-index: 1;
+        }
+
+        header { 
+            background: rgba(8, 14, 30, 0.94); padding: 14px 14px; border-bottom: 1px solid rgba(0, 229, 255, 0.3); 
+            position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+        }
+        .header-container { display: flex; justify-content: space-between; align-items: center; }
+        .head-left { display: flex; align-items: center; gap: 12px; }
+        .circle-btn {
+            width: 44px; height: 44px; border-radius: 50%; background: #0f1933; border: 1.5px solid var(--card-border);
+            display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 19px; cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+        }
+        .brand-logo-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .brand-logo-icon {
+            width: 42px; height: 42px; border-radius: 12px; background: var(--grad-blue);
+            display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px;
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.6);
+        }
+        .brand-title { font-size: 21px; font-weight: 900; color: #ffffff; text-shadow: 0 0 12px rgba(255,255,255,0.4); }
+        .badge-ultra {
+            font-size: 12px; font-weight: 900; color: #00e5ff; background: rgba(0, 229, 255, 0.15);
+            border: 1px solid rgba(0, 229, 255, 0.5); padding: 3px 10px; border-radius: 20px;
+            box-shadow: 0 0 8px rgba(0, 229, 255, 0.3);
+        }
+
+        .drawer-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 6, 18, 0.85);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 1000000; opacity: 0; visibility: hidden; transition: all 0.25s ease;
+        }
+        .drawer-overlay.open { opacity: 1; visibility: visible; }
+        .drawer-menu {
+            position: fixed; top: 0; left: -100%; width: 84%; max-width: 320px; height: 100%; background: #080f24;
+            box-shadow: 10px 0 40px rgba(0, 229, 255, 0.25); z-index: 1000001; transition: left 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+            display: flex; flex-direction: column; padding: 22px 18px; overflow-y: auto; border-right: 1px solid var(--card-border);
+        }
+        .drawer-menu.open { left: 0; }
+        .drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; }
+        .drawer-header h2 { font-size: 24px; font-weight: 900; color: #fff; text-shadow: 0 0 10px rgba(0,229,255,0.5); }
+        .drawer-close-btn {
+            width: 40px; height: 40px; border-radius: 12px; background: #131f3f; display: flex;
+            align-items: center; justify-content: center; color: #fff; font-size: 18px; cursor: pointer; border: 1px solid var(--card-border);
+        }
+        .drawer-items-list { display: flex; flex-direction: column; gap: 10px; }
+        .drawer-item {
+            width: 100%; display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 14px;
+            background: #0d1733; border: 1px solid rgba(255, 255, 255, 0.08); color: #f1f5f9; font-size: 16.5px; font-weight: 800; cursor: pointer;
+        }
+        .drawer-item.active-blue-grad { background: var(--grad-blue); border: none; color: #fff; box-shadow: 0 0 15px rgba(0, 229, 255, 0.5); }
+        .drawer-lang-card { background: #0d1733; border: 1px solid var(--card-border); border-radius: 16px; padding: 14px; margin-top: 16px; }
+        .drawer-lang-title { display: flex; align-items: center; gap: 8px; font-size: 14.5px; font-weight: 800; color: #fff; margin-bottom: 10px; }
+        .drawer-lang-buttons { display: flex; gap: 8px; }
+        .drawer-lang-btn {
+            flex: 1; padding: 11px 8px; border-radius: 10px; border: none; font-size: 14px; font-weight: 800;
+            display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; background: #152349; color: #cbd5e1;
+        }
+        .drawer-lang-btn.active { background: var(--grad-blue); color: #fff; font-weight: 900; box-shadow: 0 0 10px rgba(0, 229, 255, 0.4); }
+        .drawer-section-lbl { font-size: 14.5px; font-weight: 800; color: #8ba2c4; margin: 20px 4px 10px; }
+
+        .hero-banner-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; padding: 14px 10px 10px; }
+        .hero-card {
+            border-radius: 20px; padding: 14px 13px; min-height: 78px; display: flex; align-items: center; gap: 10px;
+            cursor: pointer; position: relative; overflow: hidden; border: 2px solid rgba(255, 255, 255, 0.1); z-index: 1;
+            transition: transform 0.15s ease, box-shadow 0.25s ease;
+            background: #081126;
+        }
+        .hero-card:active { transform: scale(0.96); }
+
+        .hero-blue { background: linear-gradient(135deg, #091a3e, #132a61); } 
+        .hero-teal { background: linear-gradient(135deg, #062835, #0d465c); } 
+
+        .hero-card.active-animated {
+            border-color: transparent !important;
+            box-shadow: 0 0 25px rgba(0, 229, 255, 0.5), inset 0 0 14px rgba(0, 229, 255, 0.2) !important;
+        }
+        .hero-card.active-animated::before {
+            content: ''; position: absolute; top: -60%; left: -60%; width: 220%; height: 220%;
+            background: conic-gradient(from 0deg, transparent 0%, #00e5ff 25%, #ffe000 50%, #ff0844 75%, #00e5ff 100%);
+            animation: rotateAroundBorder 2.4s linear infinite; z-index: -2;
+        }
+        .hero-card.active-animated::after { content: ''; position: absolute; inset: 3px; background: inherit; border-radius: 17px; z-index: -1; }
+        @keyframes rotateAroundBorder { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .hero-icon-box {
+            width: 42px; height: 42px; border-radius: 13px; background: rgba(255, 255, 255, 0.16);
+            display: flex; align-items: center; justify-content: center; font-size: 20px; color: #fff; flex-shrink: 0;
+            box-shadow: 0 0 12px rgba(255,255,255,0.25);
+        }
+        .hero-text h3 { font-size: 15.5px; font-weight: 900; color: #fff; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .hero-card.active-animated .hero-text h3 { color: #ffe000; text-shadow: 0 0 10px rgba(255, 224, 0, 0.8); }
+        .hero-text p { font-size: 12.5px; color: #cbd5e1; margin-top: 3px; white-space: nowrap; font-weight: 700; }
+        /* Section labels/text: keep all collection text clearly white */
+        .content-tab .hero-text h3, .content-tab .hero-text p, .content-tab .featured-card h2, .content-tab .featured-card p, .content-tab .pill-tag-outline { color: #fff !important; }
+        .drawer-item > span, .nav-item > span { color: #fff !important; }
+
+        .featured-card { 
+            margin: 2px 10px 14px; background: var(--card-bg); border: 1.5px solid var(--card-border); 
+            border-radius: 20px; padding: 18px 16px; box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+        }
+        .featured-top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .pill-tag-outline {
+            background: rgba(0, 229, 255, 0.12); border: 1.5px solid var(--primary); color: var(--primary);
+            font-size: 13px; font-weight: 900; padding: 5px 14px; border-radius: 18px; display: inline-flex; align-items: center; gap: 6px;
+            box-shadow: 0 0 8px rgba(0, 229, 255, 0.25);
+        }
+        .counter-badge-box { background: #070d1d; border: 1.5px solid var(--card-border); border-radius: 12px; padding: 5px 14px; text-align: center; }
+        .counter-badge-box span { font-size: 18px; font-weight: 900; color: var(--primary); display: block; line-height: 1.1; text-shadow: 0 0 8px rgba(0,229,255,0.6); }
+        .counter-badge-box small { font-size: 11.5px; color: #8ba2c4; font-weight: 800; }
+        .featured-card h2 { font-size: 19px; font-weight: 900; color: #fff; margin-bottom: 6px; }
+        .featured-card p { font-size: 13.5px; color: #b0c4de; line-height: 1.5; margin-bottom: 14px; font-weight: 700; }
+        .btn-unlock-blue {
+            width: 100%; background: var(--grad-blue); border: none; color: #fff; padding: 14px 16px;
+            border-radius: 14px; font-size: 15.5px; font-weight: 900; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+        }
+
+        /* ক্যাটাগরি ফিল্টার চিপস */
+        .category-filter-section { padding: 2px 10px 14px; }
+        .category-filter-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+        .category-filter-label { font-size: 13.5px; font-weight: 800; color: #8ba2c4; display: flex; align-items: center; gap: 6px; }
+        .category-filter-label i { color: var(--primary); font-size: 12px; }
+        .category-pills-grid { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+        .cat-filter-pill {
+            background: #081226; border: 1.5px solid var(--card-border); border-radius: 13px; padding: 7px 14px;
+            font-size: 13px; font-weight: 800; color: #b0c4de; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+            transition: transform 0.14s ease, background 0.2s ease, border-color 0.2s ease;
+        }
+        .cat-filter-pill:active { transform: scale(0.95); }
+        .cat-filter-pill.active {
+            background: var(--grad-blue) !important; border-color: var(--primary) !important; color: #ffffff !important;
+            box-shadow: 0 0 14px var(--primary-glow) !important;
+        }
+        .cat-filter-pill i { font-size: 12px; }
+
+        .section-bar { display: flex; justify-content: space-between; align-items: center; padding: 6px 12px 12px; }
+        .section-bar-title { display: flex; align-items: center; gap: 8px; font-size: 17.5px; font-weight: 900; color: #fff; }
+        .section-bar-title::before { content: ""; width: 6px; height: 20px; background: var(--primary); border-radius: 8px; display: inline-block; box-shadow: 0 0 10px var(--primary); }
+        .tag-pill-green { background: rgba(0, 229, 255, 0.12); border: 1.5px solid var(--primary); color: var(--primary); font-size: 12px; font-weight: 900; padding: 4px 12px; border-radius: 14px; }
+        .empty-video-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 35px 16px; text-align: center; margin: 0 10px 20px; color: #b0c4de; font-size: 15px; font-weight: 800; }
+
+        .video-grid { display: flex; flex-direction: column; gap: 16px; padding: 0 6px !important; margin-bottom: 20px; width: 100%; contain: content; }
+        .series-card-item {
+            background: #081024; border: 1.5px solid rgba(0, 229, 255, 0.35); border-radius: 22px !important;
+            overflow: hidden; display: flex; flex-direction: column; 
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.75), 0 0 16px rgba(0, 229, 255, 0.15);
+            position: relative; cursor: pointer; contain: content; width: 100%; 
+            transition: transform 0.15s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .series-card-item:active { transform: scale(0.985); }
+        
+        .series-thumb-container { 
+            position: relative; width: 100%; aspect-ratio: 16 / 12; background: #000000; overflow: hidden; 
+            display: flex; align-items: center; justify-content: center; z-index: 1;
+        }
+        .series-thumb-container img { 
+            width: 100%; height: 100%; object-fit: cover; object-position: center 10%; display: block; 
+            filter: contrast(1.08) brightness(1.05) saturate(1.12); transition: transform 0.3s ease;
+        }
+        .series-card-item:hover .series-thumb-container img { transform: scale(1.02); }
+
+        .series-thumb-badge-yellow {
+            position: absolute; bottom: 10px; right: 10px; background: #ffe000; color: #050814;
+            font-size: 13px; font-weight: 900; padding: 4px 12px; border-radius: 10px; 
+            box-shadow: 0 0 12px rgba(255, 224, 0, 0.7); z-index: 3;
+        }
+        .series-thumb-badge-blue {
+            position: absolute; top: 10px; left: 10px; background: rgba(5, 12, 28, 0.92);
+            border: 1px solid var(--primary); color: var(--primary); font-size: 12px; font-weight: 900;
+            padding: 3px 11px; border-radius: 9px; z-index: 3; display: flex; align-items: center; gap: 5px;
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
+        }
+
+        .series-info-body { 
+            padding: 10px 14px 12px; display: flex; flex-direction: column; gap: 7px; 
+            background: linear-gradient(180deg, #09132d 0%, #060b1b 100%); position: relative;
+        }
+        .series-title-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+        .series-main-title { 
+            font-size: 16px; font-weight: 900; color: #ffffff; line-height: 1.3; flex: 1; 
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+        }
+        .series-share-btn {
+            width: 36px; height: 36px; border-radius: 10px; background: var(--grad-blue);
+            display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; 
+            flex-shrink: 0; cursor: pointer; box-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
+        }
+        .series-share-btn:active { transform: scale(0.92); }
+        .series-meta-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
+        .series-chips-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+        .series-chip-pill {
+            background: #0f1c3d; border: 1px solid rgba(0, 229, 255, 0.25); border-radius: 10px;
+            padding: 4px 9px; font-size: 12.5px; font-weight: 800; color: #d0e1fd; display: inline-flex; align-items: center; gap: 5px; cursor: pointer;
+        }
+        .series-chip-pill i { font-size: 12px; color: var(--primary); }
+        .series-chip-pill.pill-season { color: #fff; cursor: default; }
+        .series-chip-pill.active-liked i { color: #ff0844; text-shadow: 0 0 6px #ff0844; }
+        .series-chip-pill.post-date-chip { color: #fff !important; }
+        .series-time-ago { font-size: 12px; font-weight: 700; color: #8ba2c4; margin-left: auto; }
+
+        .pagination-container { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 8px; margin: 8px 10px 26px; padding: 6px 0; }
+        .page-pill-btn {
+            min-width: 42px; height: 42px; border-radius: 12px; background: #0c152e; border: 1.5px solid var(--card-border);
+            color: #b0c4de; font-size: 15px; font-weight: 900; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; padding: 0 10px;
+        }
+        .page-pill-btn:active { transform: scale(0.92); }
+        .page-pill-btn.active { background: var(--grad-blue); color: #fff; border-color: var(--primary); box-shadow: 0 0 14px var(--primary-glow); }
+        .page-pill-btn.disabled { opacity: 0.35; pointer-events: none; }
+
+        .series-drawer-modal {
+            display: none; position: fixed; inset: 0; background: rgba(3, 7, 18, 0.88);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 100015; align-items: flex-end; justify-content: center;
+        }
+        .series-drawer-sheet {
+            background: #081126; width: 100%; max-width: 520px; max-height: 85vh; border-radius: 26px 26px 0 0;
+            border: 1px solid var(--card-border); border-bottom: none; padding: 18px 14px 26px;
+            box-shadow: 0 -10px 45px rgba(0, 229, 255, 0.2); display: flex; flex-direction: column; animation: slideSheetUp 0.25s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+        }
+        @keyframes slideSheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .series-drawer-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 12px; }
+        .series-drawer-header h3 { font-size: 20px; font-weight: 900; color: #fff; text-shadow: 0 0 10px rgba(0,229,255,0.4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 80%; }
+        .series-drawer-close {
+            width: 38px; height: 38px; border-radius: 12px; background: #132145; border: 1px solid var(--card-border);
+            display: flex; align-items: center; justify-content: center; color: #cbd5e1; font-size: 18px; cursor: pointer;
+        }
+        .series-episodes-list { overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .episode-item-card {
+            background: #0d1936; border: 1.5px solid var(--card-border); border-radius: 16px;
+            padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer;
+        }
+        .ep-left-wrap { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
+        
+        .ep-thumb-box { 
+            width: 110px; aspect-ratio: 16 / 12; border-radius: 10px; overflow: hidden; 
+            position: relative; background: #000; flex-shrink: 0; 
+        }
+        .ep-thumb-box img { 
+            width: 100%; height: 100%; object-fit: cover; object-position: center 10%; filter: contrast(1.08) brightness(1.05); 
+        }
+        .ep-badge-label {
+            position: absolute; bottom: 3px; left: 3px; background: rgba(5, 12, 28, 0.92);
+            border: 1px solid var(--primary); color: #ffe000; font-size: 10.5px; font-weight: 900; padding: 2px 6px; border-radius: 5px;
+        }
+        .ep-details { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+        .ep-details h4 { font-size: 14.5px; font-weight: 900; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .ep-details p { font-size: 12px; font-weight: 700; color: #8ba2c4; }
+        .ep-arrow-btn { width: 36px; height: 36px; border-radius: 10px; background: #152550; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 14px; flex-shrink: 0; }
+
+        .series-card-item.highlight-glow-pulse { 
+            border-color: #00e5ff !important; box-shadow: 0 0 35px rgba(0, 229, 255, 0.9) !important; scroll-margin-top: 80px; 
+        }
+
+        #video-unlock-detail-view { display: none; padding-bottom: 35px; animation: subtleFadeUp 0.2s ease forwards; }
+        .unlock-notice-card {
+            background: #0c1736; border: 1.5px solid var(--card-border); border-radius: 18px;
+            padding: 14px 16px; margin: 10px 10px; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+        }
+        .unc-left { display: flex; align-items: center; gap: 12px; }
+        .unc-play-icon { width: 42px; height: 42px; border-radius: 50%; background: var(--grad-blue); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 17px; flex-shrink: 0; box-shadow: 0 0 10px var(--primary-glow); }
+        .unc-text h4 { font-size: 15.5px; font-weight: 900; color: #fff; margin-bottom: 3px; }
+        .unc-text p { font-size: 12.5px; color: #b0c4de; line-height: 1.4; font-weight: 700; }
+        .unc-close-btn { width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: #b0c4de; font-size: 13px; cursor: pointer; flex-shrink: 0; }
+
+        .poster-outer-wrapper { margin: 0 0 12px; padding: 0 6px; width: 100%; }
+        .poster-card { 
+            background: #081024; border: 1.5px solid var(--card-border); border-radius: 22px; 
+            overflow: hidden; position: relative; width: 100%; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(0, 229, 255, 0.2); 
+        }
+        .poster-media-wrap { 
+            position: relative; width: 100%; aspect-ratio: 16 / 12; background: #000000; overflow: hidden; 
+            display: flex; align-items: center; justify-content: center;
+        }
+        .poster-media-wrap img { 
+            width: 100%; height: 100%; object-fit: cover; object-position: center 10%; display: block; 
+            filter: contrast(1.1) brightness(1.06) saturate(1.15); 
+        }
+        .poster-badge-top { position: absolute; top: 12px; left: 12px; background: rgba(0, 82, 212, 0.95); color: #fff; font-size: 13px; font-weight: 900; padding: 4px 14px; border-radius: 10px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 0 10px rgba(0, 229, 255, 0.5); }
+        .poster-badge-bottom { position: absolute; bottom: 12px; right: 12px; background: rgba(5, 12, 28, 0.92); border: 1px solid var(--primary); color: var(--primary); font-size: 13px; font-weight: 900; padding: 4px 12px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; }
+        .poster-social-row { display: flex; justify-content: space-around; align-items: center; padding: 12px 10px; background: #070e20; border-top: 1px solid rgba(255, 255, 255, 0.08); gap: 6px; }
+        .poster-pill-btn { background: #0e1a3b; border: 1.5px solid var(--card-border); border-radius: 12px; padding: 8px 14px; font-size: 13px; font-weight: 900; color: #d0e1fd; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+        .poster-pill-btn i { color: var(--primary); font-size: 14px; }
+        .poster-pill-btn.active-liked i { color: #ff0844; text-shadow: 0 0 6px #ff0844; }
+
+        .unlock-file-title { margin: 0 12px 10px; font-size: 17.5px; font-weight: 900; color: #fff; word-break: break-word; line-height: 1.4; text-shadow: 0 1px 6px rgba(0,0,0,0.8); }
+        .unlocked-timer-badge { margin: 0 10px 12px; background: rgba(0, 242, 96, 0.12); border: 1.5px solid #00f260; border-radius: 14px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 0 12px rgba(0, 242, 96, 0.25); }
+        .ut-title { font-size: 14px; font-weight: 900; color: #00f260; display: flex; align-items: center; gap: 8px; }
+        .ut-countdown { font-size: 17px; font-weight: 900; color: #ffe000; font-family: monospace; text-shadow: 0 0 8px rgba(255, 224, 0, 0.6); }
+
+        .unlock-action-card { background: var(--card-bg); border: 1.5px solid var(--card-border); border-radius: 20px; padding: 18px 16px; margin: 0 10px 14px; box-shadow: 0 6px 20px rgba(0,0,0,0.6); }
+        .uac-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .uac-left { display: flex; align-items: center; gap: 12px; }
+        .uac-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(0, 229, 255, 0.15); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; box-shadow: 0 0 10px rgba(0,229,255,0.25); }
+        .uac-title h4 { font-size: 16px; font-weight: 900; color: #fff; }
+        .uac-title p { font-size: 12.5px; color: #8ba2c4; margin-top: 3px; font-weight: 700; }
+        .uac-badge-green { background: rgba(0, 242, 96, 0.15); border: 1px solid #00f260; color: #00f260; font-size: 12px; font-weight: 900; padding: 4px 10px; border-radius: 8px; }
+        .uac-progress-box { background: #060b18; border: 1.5px solid var(--card-border); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; }
+        .uac-progress-txt { display: flex; justify-content: space-between; font-size: 13.5px; font-weight: 800; color: #d0e1fd; }
+        .uac-p-bar-outer { width: 100%; height: 8px; background: #0f1c3d; border-radius: 8px; margin-top: 9px; overflow: hidden; }
+        .uac-p-bar-fill { height: 100%; width: 0%; background: var(--grad-blue); border-radius: 8px; transition: width 0.25s; box-shadow: 0 0 10px var(--primary); }
+
+        .btn-action-cyan {
+            width: 100%; background: var(--grad-blue); border: none; color: #fff;
+            padding: 15px 16px; border-radius: 14px; font-size: 16px; font-weight: 900; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 0 18px rgba(0, 229, 255, 0.4);
+        }
+        .btn-action-gold {
+            width: 100%; background: var(--grad-gold); border: none; color: #050814; padding: 15px 16px; border-radius: 14px;
+            font-size: 16px; font-weight: 900; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 0 18px rgba(255, 224, 0, 0.4);
+        }
+        .btn-back-home { margin: 8px 10px 22px; background: var(--card-bg); border: 1.5px solid var(--card-border); border-radius: 14px; padding: 14px 16px; display: flex; align-items: center; justify-content: center; gap: 10px; color: #fff; font-size: 15px; font-weight: 800; cursor: pointer; }
+        .back-circle-icon { width: 32px; height: 32px; border-radius: 50%; background: #060b18; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 14px; }
+
+        .profile-user-card { background: var(--card-bg); border: 1.5px solid var(--card-border); border-radius: 20px; padding: 16px; margin: 12px 10px; display: flex; align-items: center; gap: 14px; box-shadow: 0 6px 20px rgba(0,0,0,0.6); }
+        .profile-avatar-wrap {
+            position: relative; width: 62px; height: 62px; border-radius: 16px; background: var(--grad-blue);
+            display: flex; align-items: center; justify-content: center; font-size: 28px; color: #fff; flex-shrink: 0; box-shadow: 0 0 15px var(--primary-glow);
+        }
+        .status-dot-online { position: absolute; bottom: 2px; right: 2px; width: 13px; height: 13px; background: #00f260; border-radius: 50%; border: 2px solid #050814; box-shadow: 0 0 8px #00f260; }
+        .profile-meta h3 { font-size: 18.5px; font-weight: 900; color: #fff; display: flex; align-items: center; gap: 6px; }
+        .badge-vip { background: rgba(255, 224, 0, 0.2); border: 1px solid #ffe000; color: #ffe000; font-size: 11px; font-weight: 900; padding: 2px 8px; border-radius: 6px; box-shadow: 0 0 8px rgba(255, 224, 0, 0.4); }
+        .profile-handle-txt { font-size: 13.5px; color: var(--primary); font-weight: 800; }
+        .profile-id-txt { font-size: 12.5px; color: #8ba2c4; font-weight: 700; display: flex; align-items: center; gap: 5px; }
+
+        .stat-grid-duo { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 10px 12px; }
+        .stat-card-box { background: var(--card-bg); border: 1.5px solid var(--card-border); border-radius: 18px; padding: 16px 14px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .stat-card-val { font-size: 26px; font-weight: 900; color: #ffe000; line-height: 1; text-shadow: 0 0 8px rgba(255, 224, 0, 0.5); }
+        .stat-card-val.blue-val { color: var(--primary); text-shadow: 0 0 8px var(--primary-glow); }
+        .stat-card-lbl { font-size: 13px; font-weight: 800; color: #8ba2c4; margin-top: 5px; }
+        .stat-circle-icon { width: 42px; height: 42px; border-radius: 12px; background: rgba(255, 224, 0, 0.15); color: #ffe000; display: flex; align-items: center; justify-content: center; font-size: 19px; }
+        .stat-circle-icon.blue-icon { background: rgba(0, 229, 255, 0.15); color: var(--primary); }
+
+        .withdraw-banner-card { background: var(--card-bg); border: 1.5px solid rgba(0, 242, 96, 0.4); border-radius: 18px; padding: 18px 16px; margin: 0 10px 14px; box-shadow: 0 0 18px rgba(0, 242, 96, 0.15); }
+        .wb-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        .wb-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(0, 242, 96, 0.15); color: #00f260; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .wb-title h4 { font-size: 16px; font-weight: 900; color: #fff; }
+        .wb-title p { font-size: 12px; color: #00f260; font-weight: 800; margin-top: 2px; }
+        .wb-bottom-row { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; gap: 8px; }
+        .wb-min-info { font-size: 12.5px; color: #8ba2c4; font-weight: 800; }
+        .btn-withdraw-green {
+            background: var(--grad-green); border: none; color: #fff; font-weight: 900; font-size: 14.5px;
+            padding: 12px 18px; border-radius: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; box-shadow: 0 0 14px rgba(0, 242, 96, 0.4);
+        }
+
+        .ad-earn-box-wrapper.profile-large-card { 
+            background: #0b1531; border: 2px solid rgba(178, 36, 239, 0.6); border-radius: 22px; 
+            padding: 22px 18px; margin: 0 10px 20px; display: flex; flex-direction: column; gap: 14px; 
+            box-shadow: 0 0 25px rgba(178, 36, 239, 0.25); 
+        }
+        .ad-earn-top-row { display: flex; align-items: flex-start; gap: 14px; }
+        .ad-earn-icon-square {
+            width: 52px; height: 52px; border-radius: 14px; background: var(--grad-purple-pink);
+            display: flex; align-items: center; justify-content: center; font-size: 24px; color: #fff; flex-shrink: 0; box-shadow: 0 0 15px rgba(178, 36, 239, 0.6);
+        }
+        .ad-earn-text-group h3 { font-size: 18px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+        .ad-earn-text-group p { font-size: 13.5px; color: #cbd5e1; line-height: 1.5; font-weight: 700; }
+        .ad-earn-pills-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+        .earn-pill { padding: 6px 12px; border-radius: 16px; font-size: 12px; font-weight: 900; display: inline-flex; align-items: center; gap: 5px; }
+        .pill-gold { background: rgba(255, 224, 0, 0.18); border: 1.5px solid #ffe000; color: #ffe000; }
+        .pill-cyan { background: rgba(0, 229, 255, 0.18); border: 1.5px solid var(--primary); color: var(--primary); }
+        .btn-earn-gradient { 
+            width: 100%; background: var(--grad-purple-pink); border: none; border-radius: 16px; 
+            padding: 15px; color: #fff; font-size: 16px; font-weight: 900; cursor: pointer; 
+            display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 0 20px rgba(178, 36, 239, 0.5); 
+        }
+
+        .refer-details-card.profile-large-card { 
+            background: var(--card-bg); border: 2px solid var(--card-border); border-radius: 22px; 
+            padding: 20px 18px; margin: 0 10px 20px; box-shadow: 0 6px 25px rgba(0,0,0,0.65); 
+        }
+        .settings-detail-card { background: var(--card-bg); border: 1.5px solid var(--card-border); border-radius: 18px; padding: 16px; margin: 0 10px 16px; box-shadow: 0 4px 18px rgba(0,0,0,0.5); }
+        .sd-row, .ref-info-line { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.08); font-size: 14.5px; color: #d0e1fd; font-weight: 800; }
+        .sd-row b { color: #fff; font-weight: 900; font-size: 15.5px; }
+        .ref-info-line b { color: #ffe000; font-weight: 900; font-size: 15.5px; }
+        .ref-code-value { color: #fff !important; font-size: 16px; font-weight: 900; display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        .ref-code-value i { color: var(--primary); font-size: 17px; }
+        .ref-link-box { background: #060b18; border: 1.5px solid var(--card-border); border-radius: 12px; padding: 12px; margin-top: 8px; font-family: monospace; font-size: 13px; color: #cbd5e1; word-break: break-all; cursor: pointer; font-weight: 700; }
+        .btn-share-ref { width: 100%; border: none; border-radius: 14px; padding: 13px 14px; font-size: 14.5px; font-weight: 900; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+
+        .player-parts-container { margin-top: 12px; padding: 10px 0 4px; border-top: 1px solid var(--card-border); }
+        .player-parts-title { font-size: 13px; font-weight: 900; color: var(--primary); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+        .player-parts-scroll { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
+        .player-parts-scroll::-webkit-scrollbar { display: none; }
+        .player-part-pill {
+            background: #0f1c3d; border: 1.5px solid var(--card-border); border-radius: 10px; padding: 6px 12px;
+            font-size: 13px; font-weight: 800; color: #cbd5e1; white-space: nowrap; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+        }
+        .player-part-pill.active { background: var(--grad-blue); color: #fff; border-color: var(--primary); box-shadow: 0 0 10px var(--primary-glow); }
+
+        /* ================= IN-PAGE FULL VIEW SCREENS ================= */
+        #earn-more-view, #payout-view { display: none; animation: subtleFadeUp 0.2s cubic-bezier(0.2, 0.9, 0.3, 1) forwards; }
+        
+        .inpage-header-nav { 
+            padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; 
+            border-bottom: 1.5px solid rgba(0, 229, 255, 0.25); background: rgba(8, 14, 30, 0.96); 
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); position: sticky; top: 0; z-index: 1000;
+        }
+
+        .earn-stats-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 10px 12px; }
+        .earn-stat-box { background: var(--card-bg); border: 1.5px solid var(--card-border); border-radius: 18px; padding: 16px 14px; display: flex; justify-content: space-between; align-items: center; }
+        .earn-stat-num { font-size: 26px; font-weight: 900; color: #fff; line-height: 1; text-shadow: 0 0 8px rgba(255,255,255,0.4); }
+        .earn-stat-title { font-size: 13px; font-weight: 800; color: #8ba2c4; margin-top: 5px; }
+        .stat-rounded-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 19px; flex-shrink: 0; }
+        .sri-gold { background: #ffe000; color: #050814; } .sri-pink { background: #ff0844; color: #fff; } .sri-cyan { background: var(--primary); color: #050814; } .sri-emerald { background: #00f260; color: #050814; }
+        .sd-progress-track { width: 100%; height: 8px; background: #060b18; border-radius: 8px; margin-top: 14px; overflow: hidden; }
+        .sd-progress-bar { height: 100%; width: 0%; background: var(--grad-blue); border-radius: 8px; transition: width 0.3s; box-shadow: 0 0 8px var(--primary); }
+        .sd-progress-foot { text-align: center; margin-top: 8px; font-size: 13.5px; font-weight: 800; color: #8ba2c4; }
+
+        /* ================= PAYOUT SCREEN ================= */
+        .payout-page-wrapper { padding: 12px 10px; }
+        .payout-switch-tabs { display: flex; background: #060b18; border-radius: 14px; padding: 5px; gap: 8px; margin-bottom: 14px; border: 1.5px solid var(--card-border); }
+        .payout-tab-btn { flex: 1; padding: 12px 8px; border: none; background: transparent; color: #8ba2c4; font-size: 15px; font-weight: 900; border-radius: 10px; cursor: pointer; transition: all 0.2s; }
+        .payout-tab-btn.active { background: var(--grad-blue); color: #fff; box-shadow: 0 0 12px var(--primary-glow); }
+        
+        .payout-balance-card { 
+            background: #09132c; border: 1.5px solid var(--card-border); border-radius: 18px; 
+            padding: 16px 18px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; 
+            box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+        }
+        .pbc-left b { font-size: 20px; color: #ffe000; font-weight: 900; } 
+        .pbc-right b { font-size: 20px; color: #00f260; font-weight: 900; }
+        
+        .gateway-grid-select { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+        .gateway-opt-card { 
+            background: #070e20; border: 1.5px solid var(--card-border); border-radius: 16px; 
+            padding: 14px 6px; text-align: center; cursor: pointer; position: relative; transition: all 0.2s;
+        }
+        .gateway-opt-card.active { border-color: var(--primary); background: rgba(0, 229, 255, 0.14); box-shadow: 0 0 15px rgba(0, 229, 255, 0.35); transform: translateY(-2px); }
+        .gateway-opt-card.gw-disabled { opacity: 0.45; filter: grayscale(0.85); cursor: not-allowed; border-color: rgba(255, 8, 68, 0.3) !important; background: rgba(255, 8, 68, 0.05) !important; }
+        .gw-off-badge { position: absolute; top: 4px; right: 4px; background: #ff0844; color: #fff; font-size: 9.5px; font-weight: 900; padding: 2px 6px; border-radius: 5px; }
+
+        .sim-opt-pill {
+            background: #081126; border: 1.5px solid var(--card-border); border-radius: 12px;
+            padding: 11px 4px; font-size: 13.5px; font-weight: 800; color: #8ba2c4; text-align: center; cursor: pointer; transition: all 0.18s ease;
+        }
+        .sim-opt-pill:active { transform: scale(0.95); }
+        .sim-opt-pill.active {
+            background: var(--grad-blue) !important; border-color: var(--primary) !important; color: #ffffff !important;
+            font-weight: 900 !important; box-shadow: 0 0 14px var(--primary-glow) !important;
+        }
+
+        .history-list-box { display: flex; flex-direction: column; gap: 10px; text-align: left; }
+        .history-card-item { background: #070e20; border: 1.5px solid var(--card-border); border-radius: 16px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; }
+        .hci-status-badge { font-size: 11px; font-weight: 900; padding: 3px 8px; border-radius: 6px; display: inline-block; margin-top: 3px; }
+        .status-pending { background: rgba(255, 224, 0, 0.15); color: #ffe000; border: 1px solid #ffe000; }
+        .status-approved { background: rgba(0, 242, 96, 0.15); color: #00f260; border: 1px solid #00f260; }
+        .status-rejected { background: rgba(255, 8, 68, 0.15); color: #ff6b8b; border: 1px solid #ff0844; }
+
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5, 10, 24, 0.98);
+            border-top: 1.5px solid rgba(0, 229, 255, 0.35); display: flex; justify-content: space-around; align-items: center;
+            padding: 10px 8px 14px; z-index: 99999; backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+            box-shadow: 0 -8px 25px rgba(0,0,0,0.8), 0 0 15px rgba(0, 229, 255, 0.15); min-height: 74px;
+        }
+        .nav-item { 
+            flex: 1; display: flex; flex-direction: column; align-items: center; color: #7890b0; 
+            font-size: 12.5px; font-weight: 800; cursor: pointer; gap: 4px; position: relative;
+            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.25, 1);
+        }
+        .nav-item i { font-size: 21px; transition: transform 0.25s ease; }
+        
+        .nav-icon-pill {
+            position: relative; padding: 5px 18px; border-radius: 16px; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;
+        }
+
+        .nav-item.active { color: #ffffff; font-weight: 900; text-shadow: 0 0 10px var(--primary-glow); transform: translateY(-2px); }
+        .nav-item.active .nav-icon-pill {
+            background: linear-gradient(135deg, rgba(0, 82, 212, 0.85) 0%, rgba(0, 229, 255, 0.85) 100%);
+            border: 1px solid var(--primary); box-shadow: 0 0 18px rgba(0, 229, 255, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.3); overflow: hidden;
+        }
+        .nav-item.active .nav-icon-pill::after {
+            content: ''; position: absolute; top: 0; left: -120%; width: 80%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent); animation: universalGlowSweep 2.2s infinite ease-in-out;
+        }
+        .nav-item.active i { transform: scale(1.15); color: #ffffff; filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8)); }
+
+        .modal-wrap {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(2, 5, 14, 0.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            z-index: 100005; align-items: center; justify-content: center; padding: 14px;
+        }
+        .modal-box { background: var(--card-bg); border: 1.5px solid var(--card-border); border-radius: 22px; width: 100%; max-width: 400px; padding: 20px 16px; text-align: center; max-height: 88vh; overflow-y: auto; box-shadow: 0 0 35px rgba(0, 229, 255, 0.25); }
+        .premium-input { width: 100%; padding: 14px 15px; background: #060b18; border: 1.5px solid var(--card-border); border-radius: 14px; color: #fff; font-size: 15px; font-weight: 800; margin-bottom: 12px; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+        .premium-input:focus { border-color: var(--primary); box-shadow: 0 0 12px rgba(0, 229, 255, 0.4); }
+        
+        .top-toast {
+            position: fixed; top: -100px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 360px;
+            background: #0d1938; border: 1.5px solid var(--primary); padding: 12px 16px; border-radius: 14px;
+            z-index: 9999999; box-shadow: 0 8px 30px rgba(0,0,0,0.7), 0 0 15px rgba(0,229,255,0.4); transition: top 0.25s ease;
+            display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 800; color: #fff;
+        }
+        .top-toast.show { top: 16px; } 
+        .top-toast.err { border-color: #ff0844; color: #ff6b8b; box-shadow: 0 0 20px rgba(255, 8, 68, 0.5); } 
+        .top-toast.succ { border-color: #00f260; color: #70ffad; box-shadow: 0 0 20px rgba(0, 242, 96, 0.5); }
+
+        .btn-disabled-state { opacity: 0.55 !important; cursor: not-allowed !important; pointer-events: none !important; filter: grayscale(0.5) !important; }
+        
+        .banned-icon-circle {
+            width: 76px; height: 76px; border-radius: 50%; background: rgba(255, 8, 68, 0.15);
+            border: 2px solid #ff0844; color: #ff6b8b; display: flex; align-items: center; justify-content: center; font-size: 34px; margin-bottom: 18px; box-shadow: 0 0 20px rgba(255, 8, 68, 0.4);
+        }
+    
+        .profile-telegram-sections { display:flex; flex-direction:column; gap:12px; margin:0 10px 20px; }
+        .profile-telegram-card { background:#081126; border:1px solid rgba(0,229,255,.22); border-radius:18px; padding:14px; box-shadow:0 0 18px rgba(0,229,255,.08); }
+        .profile-telegram-top { display:flex; gap:11px; align-items:center; }
+        .profile-telegram-icon { width:48px; height:48px; border-radius:15px; background:linear-gradient(135deg,#168dcc,#38bdf8); color:#fff; display:flex; align-items:center; justify-content:center; font-size:23px; flex-shrink:0; }
+        .profile-telegram-title { font-size:15px; font-weight:900; color:#fff; }
+        .profile-telegram-btn { width:100%; margin-top:12px; background:var(--grad-blue); border:0; color:#fff; border-radius:13px; padding:11px; font-size:13.5px; font-weight:900; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:7px; }
+.profile-avatar-wrap img{display:block;max-width:100%;max-height:100%;}\n
+/* RED2 Profile/Referral exact styles */
+.profile-user-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 14px; margin: 12px 10px; display: flex; align-items: center; gap: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.6); }
+.profile-avatar-wrap {
+            position: relative; width: 58px; height: 58px; border-radius: 16px; background: var(--grad-blue);
+            display: flex; align-items: center; justify-content: center; font-size: 26px; color: #fff; flex-shrink: 0; box-shadow: 0 0 15px var(--primary-glow);
+        }
+.status-dot-online { position: absolute; bottom: 2px; right: 2px; width: 12px; height: 12px; background: #00f260; border-radius: 50%; border: 2px solid #050814; box-shadow: 0 0 8px #00f260; }
+.profile-meta h3 { font-size: 17px; font-weight: 900; color: #fff; display: flex; align-items: center; gap: 6px; }
+.badge-vip { background: rgba(255, 224, 0, 0.2); border: 1px solid #ffe000; color: #ffe000; font-size: 10px; font-weight: 900; padding: 2px 7px; border-radius: 6px; box-shadow: 0 0 8px rgba(255, 224, 0, 0.4); }
+.profile-handle-txt { font-size: 12.5px; color: var(--primary); font-weight: 700; }
+.profile-id-txt { font-size: 11.5px; color: #8ba2c4; font-weight: 600; display: flex; align-items: center; gap: 5px; }
+.settings-detail-card, .refer-details-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px; padding: 14px; margin: 0 10px 16px; box-shadow: 0 4px 18px rgba(0,0,0,0.5); }
+.sd-row, .ref-info-line { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.08); font-size: 13px; color: #d0e1fd; font-weight: 600; }
+.ref-code-value { color: #fff !important; font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 6px; cursor: pointer; }
+.ref-link-box { background: #060b18; border: 1px solid var(--card-border); border-radius: 10px; padding: 10px; margin-top: 6px; font-family: monospace; font-size: 11.5px; color: #cbd5e1; word-break: break-all; cursor: pointer; }
+.btn-share-ref { width: 100%; border: none; border-radius: 12px; padding: 11px 12px; font-size: 13px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.brand-logo-icon{background:linear-gradient(135deg,#b30000 0%,#ff1f1f 55%,#8b0000 100%) !important;color:#fff !important;box-shadow:0 0 15px rgba(255,31,31,.6) !important;}
+
+/* Redesigned draggable Telegram helper */
+#tg-float-join{visibility:hidden;opacity:0;pointer-events:none;transition:opacity .35s ease;position:fixed;right:18px;top:62%;z-index:9999999;width:58px;height:58px;border:2px solid #ffffffed;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#39c5ff,#1683d7 65%,#0863b6);box-shadow:0 9px 26px #0008,0 0 0 5px #229ed91c,0 0 22px #229ed966;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;animation:tgBob 3s ease-in-out infinite}
+#tg-float-join:before{content:"";position:absolute;inset:-6px;border:1.5px solid #39baf788;border-radius:50%;animation:tgRipple 2.2s ease-out infinite;pointer-events:none}
+#tg-float-join svg{width:31px;height:31px;fill:#fff;pointer-events:none;z-index:1}
+#tg-float-join.dragging{animation:none;cursor:grabbing;transform:scale(1.08)}
+#tg-gate-backdrop{position:fixed;inset:0;z-index:10000000;display:none;align-items:center;justify-content:center;padding:20px;background:#030817c9;backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
+#tg-gate-backdrop.open{display:flex;animation:tgBackdropIn .22s ease-out}
+#tg-gate-card{position:relative;width:min(100%,370px);padding:27px 22px 22px;text-align:center;color:#fff;border-radius:26px;border:1px solid #39baf766;background:radial-gradient(ellipse at top,#168bd533,transparent 55%),linear-gradient(155deg,#142342,#070d1d 78%);box-shadow:0 25px 80px #000a,0 0 34px #168bd522;animation:tgCardPop .32s cubic-bezier(.2,.85,.25,1.2)}
+#tg-gate-card:before{content:"";position:absolute;top:0;left:12%;right:12%;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,#36c4ff,#a9eaff,#36c4ff,transparent)}
+#tg-gate-close{position:absolute;right:12px;top:12px;width:32px;height:32px;border-radius:50%;border:1px solid #ffffff22;background:#ffffff0d;color:#fff;font-size:22px;cursor:pointer}
+.tg-gate-emblem{width:72px;height:72px;margin:0 auto 16px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#42c8ff,#1283d0);box-shadow:0 8px 28px #168bd955;animation:tgEmblemPulse 2.3s ease-in-out infinite}
+.tg-gate-emblem svg{width:39px;height:39px;fill:#fff}
+#tg-gate-card h2{font-size:22px;line-height:1.35;font-weight:900;margin:0 16px 9px}
+#tg-gate-card p{font-size:14px;line-height:1.7;color:#bacbe4;margin:0 0 18px}
+.tg-gate-btn{width:100%;min-height:47px;border:0;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:9px;text-decoration:none;font:800 14px sans-serif;cursor:pointer;transition:transform .18s,filter .18s}
+.tg-gate-btn:active{transform:scale(.98);filter:brightness(.94)}
+#tg-gate-join{background:linear-gradient(120deg,#37baf6,#147bd0);color:#fff;box-shadow:0 8px 22px #168bd944;margin-bottom:10px}
+#tg-gate-note{font-size:11px;color:#91a8ca;margin-top:12px;line-height:1.55}
+@keyframes tgRipple{0%{transform:scale(.92);opacity:.85}100%{transform:scale(1.42);opacity:0}}
+@keyframes tgBob{0%,100%{margin-top:0}50%{margin-top:-5px}}
+@keyframes tgBackdropIn{from{opacity:0}to{opacity:1}}
+@keyframes tgCardPop{from{opacity:0;transform:translateY(14px) scale(.92)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes tgEmblemPulse{0%,100%{box-shadow:0 8px 28px #168bd955}50%{box-shadow:0 8px 34px #168bd988}}
+@media(min-width:700px){#tg-float-join{width:62px;height:62px;right:24px}}
+@media(prefers-reduced-motion:reduce){#tg-float-join,.tg-gate-emblem,#tg-gate-backdrop.open,#tg-gate-card{animation:none!important}}
+
+</style>
+<link href="https://www.blogger.com/profile/10342630018415436383" rel="me">
+<meta content="ca-host-pub-1556223355139109" name="google-adsense-platform-account">
+<meta content="blogspot.com" name="google-adsense-platform-domain">
+</meta></meta></link></head>
+<body>
+<div id="user-record-error" style="display:none;position:fixed;z-index:99999;top:12px;left:12px;right:12px;padding:12px 14px;background:#25101a;border:1px solid #ff456e;border-radius:12px;color:#ffd6df;font:600 13px/1.5 system-ui"></div>
+<!-- PRELOADER -->
+<div id="app-preloader">
+<div class="preloader-bg-glow"></div>
+<div class="preloader-content">
+<div class="ring-wrapper">
+<div class="outer-ring"></div>
+<div class="inner-ring"></div>
+<div class="center-circle">
+<span class="letter">X</span>
+</div>
+</div>
+<div class="bot-title">18+</div>
+</div>
+</div>
+<div class="top-toast" id="top-toast"><i class="fa-solid fa-circle-info" id="toast-icon"></i><span id="toast-msg">বার্তা</span></div>
+<div class="drawer-overlay" id="drawer-overlay" onclick="toggleSidebarMenu(false)"></div>
+<div class="drawer-menu" id="drawer-menu">
+<div class="drawer-header"><h2 id="menu-title-txt">মেনু</h2><div class="drawer-close-btn" onclick="toggleSidebarMenu(false)"><i class="fa-solid fa-xmark"></i></div></div>
+<div class="drawer-items-list">
+<div class="drawer-item active-blue-grad" id="drawer-nav-adult" onclick="navFromDrawer('adult')"><i class="fa-solid fa-fire"></i><span id="drawer-item-adult">এন্ডাল</span></div>
+<div class="drawer-item" id="drawer-nav-movies" onclick="navFromDrawer('movies')"><i class="fa-solid fa-clapperboard"></i><span id="drawer-item-movie">মুভি</span></div>
+<div class="drawer-item" id="drawer-nav-series" onclick="navFromDrawer('series')"><i class="fa-solid fa-layer-group"></i><span id="drawer-item-series">জাপানি</span></div>
+
+</div>
+<div class="drawer-lang-card">
+<div class="drawer-lang-title" id="drawer-lang-label"><i class="fa-solid fa-language"></i> ভাষা পরিবর্তন / Language</div>
+<div class="drawer-lang-buttons">
+<button class="drawer-lang-btn active" id="btn-lang-bn" onclick="changeAppLang('bn')">🇧🇩 বাংলা</button>
+<button class="drawer-lang-btn" id="btn-lang-en" onclick="changeAppLang('en')">🇺🇸 English</button>
+</div>
+</div>
+<div class="drawer-section-lbl" id="menu-social-lbl">সোশ্যাল লিংক</div>
+<div class="drawer-item" onclick="goToTelegramChannel()" style="background: #081126;"><i class="fa-brands fa-telegram" style="color: var(--primary); font-size: 19px;"></i><span id="menu-telegram-name">টেলিগ্রাম</span></div>
+</div>
+<header id="main-header">
+<div class="header-container">
+<div class="head-left">
+<div class="circle-btn" onclick="toggleSidebarMenu(true)"><i class="fa-solid fa-bars"></i></div>
+<div class="brand-logo-wrap" onclick="switchNavTab('movies')">
+<div class="brand-logo-icon"><i class="fa-solid fa-play"></i></div>
+<div class="brand-title" id="app-brand-title">অন্ধকার জগৎ</div>
+<span class="badge-ultra" id="app-header-badge">18+</span>
+</div>
+</div>
+
+</div>
+</header>
+
+<!-- ================= দেশী ট্যাব ================= -->
+<div class="content-tab" id="tab-adult">
+<div class="hero-banner-grid">
+<div class="hero-card hero-blue active-animated" style="grid-column:1 / -1;"><div class="hero-icon-box"><i class="fa-solid fa-fire"></i></div><div class="hero-text"><h3>দেশি-বিদেশি ভাইরাল কালেকশন</h3><p>একটি করে বিজ্ঞাপন দেখে ভিডিও আনলক করুন</p></div></div>
+</div>
+<div class="featured-card shimmer-card-effect"><div class="featured-top-row"><span class="pill-tag-outline"><i class="fa-solid fa-fire"></i> এডাল্ট বিশেষ কালেকশন</span><div class="counter-badge-box"><span id="adult-total-count">০</span><small>ভিডিও</small></div></div><h2>এডাল্ট ভিডিও লাইব্রেরি</h2><p>আপনার পছন্দের ভিডিও নির্বাচন করে ফ্রিতে অ্যাড দেখে ভিডিও আনলক করে উপভোগ করুন।</p></div>
+<div class="video-grid" id="adult-list-grid"></div><div class="pagination-container" id="adult-pagination" style="display:none;"></div><div class="empty-video-card" id="adult-empty-card" style="display:none;"></div>
+</div>
+<!-- ================= বিদেশী ট্যাব ================= -->
+<div class="content-tab" id="tab-movies" style="display:none;">
+<div class="hero-banner-grid">
+<div class="hero-card hero-blue active-animated" style="grid-column:1 / -1;"><div class="hero-icon-box"><i class="fa-solid fa-clapperboard"></i></div><div class="hero-text"><h3>দেশি-বিদেশি ভাইরাল কালেকশন</h3><p>একটি করে বিজ্ঞাপন দেখে ভিডিও আনলক করুন</p></div></div>
+</div>
+<div class="featured-card shimmer-card-effect"><div class="featured-top-row"><span class="pill-tag-outline"><i class="fa-solid fa-layer-group"></i> বিদেশী বিশেষ কালেকশন</span><div class="counter-badge-box"><span id="movie-total-count">০</span><small>ভিডিও</small></div></div><h2>বিদেশী ভিডিও লাইব্রেরি</h2><p>আপনার পছন্দের ভিডিও নির্বাচন করে ফ্রিতে অ্যাড দেখে ভিডিও আনলক করে উপভোগ করুন।</p></div>
+<div class="video-grid" id="movie-list-grid"></div><div class="pagination-container" id="movie-pagination" style="display:none;"></div><div class="empty-video-card" id="movie-empty-card" style="display:none;"></div>
+</div>
+<!-- ================= মুভি ট্যাব ================= -->
+<div class="content-tab" id="tab-series" style="display:none;">
+<div class="hero-banner-grid">
+<div class="hero-card hero-blue active-animated" style="grid-column:1 / -1;"><div class="hero-icon-box"><i class="fa-solid fa-film"></i></div><div class="hero-text"><h3>দেশি-বিদেশি ভাইরাল কালেকশন</h3><p>একটি করে বিজ্ঞাপন দেখে ভিডিও আনলক করুন</p></div></div>
+</div>
+<div class="featured-card shimmer-card-effect"><div class="featured-top-row"><span class="pill-tag-outline"><i class="fa-solid fa-film"></i> মুভি বিশেষ কালেকশন</span><div class="counter-badge-box"><span id="series-total-count">০</span><small>ভিডিও</small></div></div><h2>মুভি ভিডিও লাইব্রেরি</h2><p>আপনার পছন্দের ভিডিও নির্বাচন করে ফ্রিতে অ্যাড দেখে ভিডিও আনলক করে উপভোগ করুন।</p></div>
+<div class="video-grid" id="series-list-grid"></div><div class="pagination-container" id="series-pagination" style="display:none;"></div><div class="empty-video-card" id="series-empty-card" style="display:none;"></div>
+</div>
+<!-- ================= বটম বার ================= -->
+<nav class="bottom-nav">
+<div class="nav-item active" onclick="switchNavTab('adult', this)">
+<div class="nav-icon-pill"><i class="fa-solid fa-fire"></i></div>
+<span id="nav-lbl-adult">এন্ডাল</span>
+</div>
+<div class="nav-item" onclick="switchNavTab('movies', this)">
+<div class="nav-icon-pill"><i class="fa-solid fa-clapperboard"></i></div>
+<span id="nav-lbl-movies">সিনেমা</span>
+</div>
+<div class="nav-item" onclick="switchNavTab('series', this)">
+<div class="nav-icon-pill"><i class="fa-solid fa-layer-group"></i></div>
+<span id="nav-lbl-series">জাপানি</span>
+</div>
+
+</nav>
+
+
+
+
+
+
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+  const bnDigits = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+  const toBn = n => String(n).replace(/\d/g,d=>bnDigits[d]);
+  const num = n => APP_LANG==='bn' ? toBn(Number(n||0)) : String(Number(n||0));
+  const tg = window.Telegram?.WebApp;
+  // আলাদা ৩টি Firebase project: Series / Movies / Adult
+  const FIREBASE_CONFIGS = {
+    series: {
+      apiKey: 'AIzaSyBg4edHqNR4gig-Va9Blk2ysA460v0Zkg',
+      authDomain: 'japanese-video-c249d.firebaseapp.com',
+      projectId: 'japanese-video-c249d',
+      storageBucket: 'japanese-video-c249d.firebasestorage.app',
+      messagingSenderId: '340224512172',
+      appId: '1:340224512172:web:32c74ce6cbc50cc7c74f09',
+      measurementId: 'G-016DCLTXB8'
+    },
+    movies: {
+      apiKey: 'AIzaSyBAF9GAZyhXUm6opo3DZvOlw0-R7-Din4I',
+      authDomain: 'japanese-video-d25ed.firebaseapp.com',
+      projectId: 'japanese-video-d25ed',
+      storageBucket: 'japanese-video-d25ed.firebasestorage.app',
+      messagingSenderId: '804218977507',
+      appId: '1:804218977507:web:bb1c06bbd6e1ae577859d6',
+      measurementId: 'G-TZZ1BFVMEC'
+    },
+    adult: {
+      apiKey: 'AIzaSyCtjhgIxkEWWkHZEALNRD3Rz3i-3Xx3Dbw',
+      authDomain: 'naw-project-telegram-bot.firebaseapp.com',
+      projectId: 'naw-project-telegram-bot',
+      storageBucket: 'naw-project-telegram-bot.firebasestorage.app',
+      messagingSenderId: '1087164913124',
+      appId: '1:1087164913124:web:a6a83c2a88329334f963f1',
+      measurementId: 'G-MCHXW9C24P'
+    }
+  };
+  const FIREBASE_APPS = {};
+  const DBS = {};
+  Object.keys(FIREBASE_CONFIGS).forEach(section => {
+    try {
+      const appName = `enjoy_${section}_db`;
+      const app = firebase.apps.find(a => a.name === appName) || firebase.initializeApp(FIREBASE_CONFIGS[section], appName);
+      FIREBASE_APPS[section] = app;
+      DBS[section] = app.firestore();
+      try { if (app.analytics) app.analytics(); } catch (e) { console.warn(`Analytics ${section} init skipped`, e); }
+    } catch (e) { console.warn(`Firebase ${section} init failed`, e); }
+  });
+  // Friend source: used ONLY to add its posts into the user's Deshi (movies) feed.
+  // Existing databases, ads, and section settings remain owned by this app.
+  const FRIEND_CONFIG = {
+    apiKey: 'AIzaSyBR9cx11EjwDzoCshY_8j-pBix_brYA50',
+    authDomain: 'ads-earning-26019.firebaseapp.com',
+    databaseURL: 'https://ads-earning-26019-default-rtdb.asia-southeast1.firebasedatabase.app',
+    projectId: 'ads-earning-26019',
+    storageBucket: 'ads-earning-26019.firebasestorage.app',
+    messagingSenderId: '226920017119',
+    appId: '1:226920017119:web:f9e5d2baac8cc86ab30d6a'
+  };
+  let FRIEND_DB=null, FRIEND_RTDB=null;
+  try {
+    const friendApp = firebase.apps.find(a=>a.name==='friend_posts_source') || firebase.initializeApp(FRIEND_CONFIG,'friend_posts_source');
+    FRIEND_DB = friendApp.firestore();
+    try { FRIEND_RTDB = friendApp.database(); } catch(e) { console.warn('Friend RTDB unavailable',e); }
+  } catch(e) { console.warn('Friend Firebase source init failed',e); }
+
+  // Backward-compatible alias for code paths that only need a Firestore instance.
+  let db = DBS.movies || DBS.series || DBS.adult || null;
+
+
+  let APP_LANG = localStorage.getItem('app_lang_choice') || 'bn';
+  let currentUser=null;
+  // Lightweight per-user usage metrics; these fields are shown in the Admin panel.
+  let userMetricsRef=null;
+  let sessionStartedAt=Date.now();
+  let lastMetricsFlushAt=Date.now();
+  let metricsFlushBusy=false;
+  function metricIncrement(field, amount=1){
+    try {
+      if(!userMetricsRef || !firebase.firestore?.FieldValue) return;
+      userMetricsRef.set({[field]:firebase.firestore.FieldValue.increment(Number(amount)||0),metricsUpdatedAt:firebase.firestore.FieldValue.serverTimestamp(),lastSeen:firebase.firestore.FieldValue.serverTimestamp()},{merge:true}).catch(e=>console.warn('Metric write failed',field,e));
+    } catch(e){ console.warn('Metric update unavailable',e); }
+  }
+  async function flushSessionMetrics(finalFlush=false){
+    if(!userMetricsRef || metricsFlushBusy) return;
+    const now=Date.now(), seconds=Math.max(0,Math.floor((now-lastMetricsFlushAt)/1000));
+    if(!seconds && !finalFlush) return;
+    metricsFlushBusy=true; lastMetricsFlushAt=now;
+    try {
+      const fv=firebase.firestore.FieldValue;
+      await userMetricsRef.set({
+        totalSessionSeconds:fv.increment(seconds),
+        lastSessionSeconds:Math.max(0,Math.floor((now-sessionStartedAt)/1000)),
+        lastSeen:fv.serverTimestamp(),
+        metricsUpdatedAt:fv.serverTimestamp(),
+        isOnline:!finalFlush
+      },{merge:true});
+    } catch(e){ console.warn('Session metrics write failed',e); }
+    finally { metricsFlushBusy=false; }
+  }
+  function startUsageMetrics(){
+    if(!currentUser?.id || !DBS.adult) return;
+    userMetricsRef=DBS.adult.collection('users').doc(String(currentUser.id));
+    sessionStartedAt=Date.now(); lastMetricsFlushAt=sessionStartedAt;
+    flushSessionMetrics(false);
+    if(!window.__usageMetricInterval) window.__usageMetricInterval=setInterval(()=>flushSessionMetrics(false),15000);
+    if(!window.__usageMetricPagehide){window.__usageMetricPagehide=true;window.addEventListener('pagehide',()=>flushSessionMetrics(true));document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')flushSessionMetrics(true);else {sessionStartedAt=Date.now();lastMetricsFlushAt=sessionStartedAt;flushSessionMetrics(false);}});}
+  }
+  const TG_SECTIONS=[{titleBn:'মেইন চ্যানেল',titleEn:'Main Channel',url:'https://t.me/+acMOs-QRzPphNGE1'},{titleBn:'ব্যাকআপ চ্যানেল',titleEn:'Backup Channel',url:'https://t.me/Backup_channel_video_2026'},{titleBn:'মেইন বট',titleEn:'Main Bot',url:'https://t.me/DesiViralPremium2026Bot'}];
+  const AD_NETWORK = {
+    id: '3516334',
+    sdkName: 'show_11947320',
+    zoneId: '11947320'
+  };
+  let APP_CONFIG = {
+    appName:'অন্ধকার জগৎ', appHeaderBadge:'18+', botUsername:'Ret2_bot', appShortName:'TkEarning', telegramChannel:'https://t.me/Ads_Earn_Pro',
+    monetagSdkName:AD_NETWORK.sdkName, monetagZoneId:AD_NETWORK.zoneId, adNetwork:'monetag',
+    unlockAdCount:0
+  };
+  const SECTION_CONFIG = {
+    movies:{...APP_CONFIG},
+    series:{...APP_CONFIG},
+    adult:{...APP_CONFIG}
+  };
+
+  let allLoadedVideos=[];
+  let activeHero={movies:'new_movie',series:'new_series',adult:'adult_new'};
+  let currentPage={movies:1,series:1,adult:1};
+  const ITEMS_PER_PAGE=10;
+  let liked={};
+  let adBusy=false;
+  try { liked=JSON.parse(localStorage.getItem('app_user_liked_vids')||'{}'); } catch(e) { liked={}; }
+
+  const isSeries=v => v?._sourceSection==='series';
+  const isAdult=v => v?._sourceSection==='adult';
+  const isMovie=v => v?._sourceSection==='movies';
+  const timeAgo=d => {
+    if(!d) return APP_LANG==='bn'?'এইমাত্র':'Just now';
+    const t=typeof d==='number'?d:(d?.seconds?d.seconds*1000:new Date(d).getTime());
+    const m=Math.max(0,Math.floor((Date.now()-t)/60000));
+    if(m<1) return APP_LANG==='bn'?'এইমাত্র':'Just now';
+    if(m<60) return APP_LANG==='bn'?`${num(m)} মিনিট আগে`:`${m} mins ago`;
+    const h=Math.floor(m/60); if(h<24)return APP_LANG==='bn'?`${num(h)} ঘণ্টা আগে`:`${h} hours ago`;
+    const days=Math.floor(h/24); if(days<7)return APP_LANG==='bn'?`${num(days)} দিন আগে`:`${days} days ago`;
+    const weeks=Math.floor(days/7); if(weeks<4)return APP_LANG==='bn'?`${num(weeks)} সপ্তাহ আগে`:`${weeks} weeks ago`;
+    const months=Math.floor(days/30); if(months<12)return APP_LANG==='bn'?`${num(months)} মাস আগে`:`${months} months ago`;
+    return APP_LANG==='bn'?`${num(Math.floor(days/365))} বছর আগে`:`${Math.floor(days/365)} years ago`;
+  };
+  function formatPostDate(d){
+    if(!d) return '—';
+    let date=null;
+    try{
+      if(typeof d?.toDate==='function') date=d.toDate();
+      else if(typeof d==='number') date=new Date(d);
+      else if(d?.seconds!==undefined) date=new Date(Number(d.seconds)*1000);
+      else date=new Date(d);
+    }catch(e){ date=null; }
+    if(!date || Number.isNaN(date.getTime())) return '—';
+    const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return `${String(date.getDate()).padStart(2,'0')}-${months[date.getMonth()]}-${date.getFullYear()}`;
+  }
+
+  const linksOf=v => {
+    const out=[];
+    const keys=['telegramUrl','telegramURL','telegramLink','telegram_link','botUrl','botURL','botLink','bot_link','targetUrl','targetURL','targetLink','target_link','videoUrl','videoURL','videoLink','video_link','video','telegram','link','url','href'];
+    keys.forEach(k=>v?.[k]&&out.push(v[k]));
+    if(Array.isArray(v?.links)) v.links.forEach(x=>out.push(typeof x==='string'?x:(x?.url||x?.link||x?.href||x?.telegramUrl||x?.videoUrl||'')));
+    if(Array.isArray(v?.telegramLinks)) out.push(...v.telegramLinks);
+    return out.filter(Boolean);
+  };
+  const targetOf=v => {
+    for(const x of linksOf(v)){ const u=String(x).trim(); if(/^https?:\/\/(t\.me|telegram\.me)\//i.test(u)||/^tg:\/\//i.test(u)) return u; }
+    if(v?.url) return String(v.url);
+    if(v?.id) return `https://t.me/${APP_CONFIG.botUsername}${APP_CONFIG.appShortName?'/'+APP_CONFIG.appShortName:''}?startapp=vid_${encodeURIComponent(v.id)}`;
+    return '';
+  };
+  const showToast=(msg,type='info')=>{const t=$('top-toast');if(!t)return;$('toast-msg').innerText=msg;t.className='top-toast show '+(type==='error'?'err':type==='success'?'succ':'');setTimeout(()=>t.classList.remove('show'),2600)};
+  const haptic=x=>{try{tg?.HapticFeedback?.impactOccurred(x==='error'?'heavy':x==='success'?'medium':x||'light')}catch(e){}};
+  const openTelegram=u=>{try{if(tg?.openTelegramLink && /^https:\/\/(t\.me|telegram\.me)\//i.test(u))tg.openTelegramLink(u);else window.open(u,'_blank')}catch(e){window.open(u,'_blank')}};
+
+  function toggleSidebarMenu(show){ haptic('light'); $('drawer-overlay')?.classList.toggle('open',show); $('drawer-menu')?.classList.toggle('open',show); }
+  function navFromDrawer(tab){toggleSidebarMenu(false);switchNavTab(tab);}
+  function switchNavTab(tab,el){
+    ['movies','series','adult'].forEach(x=>{const n=x==='movies'?'movies':x; const e=$(`tab-${n}`);if(e)e.style.display=x===tab?'block':'none';});
+    document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
+    if(el)el.classList.add('active');else document.querySelector(`.nav-item[onclick*="'${tab}'"]`)?.classList.add('active');
+    ['movies','series','adult'].forEach(x=>$(`drawer-nav-${x}`)?.classList.toggle('active-blue-grad',x===tab));
+    window.scrollTo({top:0,behavior:'smooth'});
+  
+    window.scrollTo({top:0,left:0,behavior:'auto'});
+  }
+  function handleHeroSectionClick(card,tag,section){haptic('light');card.parentElement.querySelectorAll('.hero-card').forEach(x=>x.classList.remove('active-animated'));card.classList.add('active-animated');activeHero[section]=tag;currentPage[section]=1;renderAll();}
+  function changeAppLang(lang){APP_LANG=lang;localStorage.setItem('app_lang_choice',lang);document.documentElement.lang=lang;$('btn-lang-bn')?.classList.toggle('active',lang==='bn');$('btn-lang-en')?.classList.toggle('active',lang==='en');showToast(lang==='bn'?'ভাষা বাংলায় রূপান্তর করা হয়েছে':'Language switched to English','success');renderStatic();renderAll();}
+  function renderTelegramSections(){
+    const wrap=$('profile-telegram-sections');
+    if(!wrap)return;
+    wrap.innerHTML=TG_SECTIONS.map((x,i)=>`<div class="profile-telegram-card"><div class="profile-telegram-top"><div class="profile-telegram-icon"><i class="fa-brands fa-telegram"></i></div><div style="min-width:0"><div class="profile-telegram-title">${esc(APP_LANG==='bn'?x.titleBn:x.titleEn)}</div></div></div><button class="profile-telegram-btn" onclick="openConfiguredTelegramLink(${i})"><i class="fa-brands fa-telegram"></i> ${APP_LANG==='bn'?'যোগ দিন':'Join'}</button></div>`).join('');
+  }
+  function openConfiguredTelegramLink(i){const x=TG_SECTIONS[i];if(x)openTelegram(x.url);}
+  async function copyText(value){const text=String(value??'');try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);return true}}catch(e){}try{const ta=document.createElement('textarea');ta.value=text;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.left='-9999px';document.body.appendChild(ta);ta.select();const ok=document.execCommand('copy');ta.remove();return ok}catch(e){return false}}
+  function getReferralLink(){const base=String(APP_CONFIG.referralBase||'https://t.me/DesiViralPremium2026Bot/desipremiumbot?startapp=');return base+encodeURIComponent(String(currentUser?.id||''));}
+  async function copyReferCode(){const ok=await copyText(String(currentUser?.id||''));showToast(ok?'রেফারেল কোড কপি হয়েছে!':'কপি করা যায়নি, আবার চেষ্টা করুন',ok?'success':'error');}
+  async function copyReferLink(){const ok=await copyText(getReferralLink());showToast(ok?'রেফারেল লিংক কপি হয়েছে!':'কপি করা যায়নি, আবার চেষ্টা করুন',ok?'success':'error');}
+  function shareReferralLink(){const u=getReferralLink();openTelegram(`https://t.me/share/url?url=${encodeURIComponent(u)}&text=${encodeURIComponent('🔥 আমাদের অ্যাপে যোগ দিন!')}`);}
+  function updateProfile(){
+  if(!currentUser)return;
+  const n=document.getElementById('u-profile-name'),h=document.getElementById('u-profile-handle'),id=document.getElementById('u-profile-id');
+  if(n)n.textContent=currentUser.first_name||currentUser.username||'User';
+  if(h)h.textContent=currentUser.username?'@'+currentUser.username:'@user';
+  if(id)id.textContent=String(currentUser.id);
+  const rc=document.getElementById('ref-user-code'),rl=document.getElementById('ref-share-url-box');
+  if(rc)rc.textContent=String(currentUser.id);
+  if(rl)rl.textContent=getReferralLink();
+  const wrap=document.querySelector('.profile-avatar-wrap');
+  if(wrap && currentUser.photo_url){
+    let img=wrap.querySelector('.telegram-profile-photo');
+    if(!img){img=document.createElement('img');img.className='telegram-profile-photo';wrap.insertBefore(img,wrap.firstChild);}
+    img.src=currentUser.photo_url;
+    img.style.cssText='width:100%;height:100%;object-fit:cover;border-radius:16px;display:block;';
+    const icon=wrap.querySelector('.fa-user'); if(icon)icon.style.display='none';
+  }
+}
+
+
+  function loadTelegramProfile(){try{const u=tg?.initDataUnsafe?.user;if(u&&u.id){currentUser=u;updateProfile();}}catch(e){}}
+  // Store one record per Telegram user ID. This avoids auth/admin-restricted-operation
+  // caused by Anonymous sign-in being disabled. Publish the supplied users rules first.
+  async function recordMiniAppVisit(){
+    try {
+      const u = tg?.initDataUnsafe?.user;
+      if (!u?.id || !DBS.adult) { console.warn('Telegram user or adult Firestore unavailable'); return; }
+      const telegramId = String(u.id);
+      const userRef = DBS.adult.collection('users').doc(telegramId);
+      userMetricsRef=userRef;
+      startUsageMetrics();
+      const snap = await userRef.get();
+      const old = snap.exists ? (snap.data() || {}) : {};
+      const seenKey = `enjoy_seen_${telegramId}_${new Date().toISOString().slice(0,10)}`;
+      const alreadyCountedToday = sessionStorage.getItem(seenKey) === '1';
+      const visits = Number(old.visitCount || 0) + (alreadyCountedToday ? 0 : 1);
+      const stamp = firebase.firestore.FieldValue.serverTimestamp();
+      await userRef.set({
+        telegramId,
+        firstName: u.first_name || '',
+        lastName: u.last_name || '',
+        username: u.username || '',
+        profileLink: u.username ? `https://t.me/${u.username}` : `tg://user?id=${telegramId}`,
+        photoUrl: u.photo_url || u.photoUrl || '',
+        languageCode: u.language_code || '',
+        isPremium: !!u.is_premium,
+        visitCount: visits,
+        firstSeen: old.firstSeen || stamp,
+        lastSeen: stamp,
+        source: 'telegram-mini-app'
+      }, {merge:true});
+      sessionStorage.setItem(seenKey, '1');
+      console.info('Telegram user record saved', telegramId);
+    } catch(e) {
+      console.error('Telegram user record save failed:', e);
+      const msg = `ইউজার তথ্য জমা হয়নি: ${e.code || e.message || 'Firebase Rules পরীক্ষা করুন'}`;
+      const alertBox = document.getElementById('user-record-error');
+      if (alertBox) { alertBox.textContent = msg; alertBox.style.display = 'block'; }
+    }
+  }
+
+  function renderStatic(){
+    const bn=APP_LANG==='bn';
+    const m={brand:bn?'অন্ধকার জগৎ':'Dark World',badge:'18+',movie:bn?'বিদেশী':'Foreign Collection',series:bn?'জাপানি':'Japanese',adult:bn?'দেশি':'Deshi Collection',profile:bn?'ইউজার প্রোফাইল':'User Profile',social:bn?'সোশ্যাল লিংক':'Social Links',tg:bn?'টেলিগ্রাম':'Telegram'};
+    [['app-brand-title',m.brand],['app-header-badge',m.badge],['drawer-item-movie',m.movie],['drawer-item-series',m.series],['drawer-item-adult',m.adult],['menu-social-lbl',m.social],['menu-telegram-name',m.tg],['nav-lbl-movies',m.movie],['nav-lbl-series',m.series],['nav-lbl-adult',m.adult],['nav-lbl-profile',bn?'প্রোফাইল':'Profile']].forEach(([id,v])=>{if($(id))$(id).innerText=v});
+        if($('profile-section-title'))$('profile-section-title').innerText=bn?'ইউজার প্রোফাইল':'User Profile';
+    if($('profile-telegram-section-title'))$('profile-telegram-section-title').innerText=bn?'টেলিগ্রাম চ্যানেল':'Telegram Channels';
+    if($('profile-referral-section-title'))$('profile-referral-section-title').innerText=bn?'রেফারেল':'Referral';
+    if($('lbl-ref-code'))$('lbl-ref-code').innerText=bn?'রেফারেল কোড':'Referral Code';
+    if($('lbl-ref-link'))$('lbl-ref-link').innerText=bn?'আপনার রেফারেল লিংক':'Your Referral Link';
+    if($('btn-share-ref-txt'))$('btn-share-ref-txt').innerText=bn?'শেয়ার করুন':'Share';
+    if($('btn-copy-ref-txt'))$('btn-copy-ref-txt').innerText=bn?'লিংক কপি':'Copy Link';
+    renderTelegramSections();updateProfile();
+  }
+
+  function getAdCount(v){
+    const candidates=[v?.adCount,v?.adLimit,v?.adsRequired,v?.requiredAds,v?.requiredAdCount,v?.unlockAdCount];
+    for(const x of candidates){if(x!==undefined&&x!==null&&x!=='')return Math.max(0,Math.floor(Number(x)||0));}
+    const sectionCfg=SECTION_CONFIG[v?._sourceSection]||APP_CONFIG;return Math.max(0,Math.floor(Number(sectionCfg.unlockAdCount)||0));
+  }
+  function adBadge(v){const n=String(v?._sourceKey||'').startsWith('friend_')?1:getAdCount(v);return n>0?`ADS/${num(n)} LIMIT`:'ADS/FREE';}
+  function postCategory(v){
+    const c=String(v?.postCategory||v?.category||v?.sectionTag||'').toLowerCase().trim();
+    if(['hot','trending','hot_movie','হট সিনেমা','hot movies'].includes(c)) return 'trending';
+    return 'new_movie';
+  }
+
+  const DEFAULT_THUMB='https://via.placeholder.com/600x450?text=Enjoy+Movies';
+  function imageCandidates(v){
+    const vals=[
+      v?.thumb,v?.thumbnail,v?.poster,v?.imageUrl,v?.imageURL,v?.image,v?.image_url,
+      v?.thumbnailUrl,v?.thumbnailURL,v?.posterUrl,v?.posterURL,v?.cover,v?.coverUrl
+    ];
+    return [...new Set(vals.map(x=>String(x||'').trim()).filter(x=>/^https?:\/\//i.test(x)))];
+  }
+  function imageSrc(v){
+    return imageCandidates(v)[0]||DEFAULT_THUMB;
+  }
+  function imageFallback(img){
+    const list=img.dataset.candidates?JSON.parse(img.dataset.candidates):[];
+    const i=Number(img.dataset.fallbackIndex||0)+1;
+    if(i<list.length){img.dataset.fallbackIndex=String(i);img.src=list[i];}
+    else {img.onerror=null;img.src=DEFAULT_THUMB;}
+  }
+
+  function renderPage(type,list){
+    const grid=$(`${type==='movies'?'movie':type}-list-grid`),empty=$(`${type==='movies'?'movie':type}-empty-card`),pag=$(`${type==='movies'?'movie':type}-pagination`);if(!grid)return;
+    let arr=[...list];
+    if(activeHero[type]&&activeHero[type]!=='new_movie'&&activeHero[type]!=='new_series'&&activeHero[type]!=='adult_new') arr=[...arr].sort((a,b)=>(b.views+b.likes)-(a.views+a.likes));
+    const total=Math.max(1,Math.ceil(arr.length/ITEMS_PER_PAGE));currentPage[type]=Math.min(currentPage[type],total);const p=currentPage[type];const visible=arr.slice((p-1)*ITEMS_PER_PAGE,p*ITEMS_PER_PAGE);
+    if(!arr.length){grid.innerHTML='';if(empty)empty.style.display='block';if(pag)pag.style.display='none';return}else if(empty)empty.style.display='none';
+    grid.innerHTML=visible.map(v=>{
+      const ep=Array.isArray(v.links)&&v.links.length?v.links.length:1;
+      const right=type==='adult'?'দেশি মাল':type==='series'?'জাপানি মাল':'বিদেশি মাল';
+      return `<div class="series-card-item" id="video-card-${esc(v.id)}" data-video-id="${esc(v.id)}" tabindex="0">
+        <div class="series-thumb-container">
+          <div class="series-thumb-badge-blue"><i class="fa-solid fa-rectangle-ad"></i> ${adBadge(v)}</div>
+          <img src="${esc(imageSrc(v))}" data-candidates="${esc(JSON.stringify(imageCandidates(v)))}" data-fallback-index="0" onerror="imageFallback(this)" loading="lazy" decoding="async">
+          <div class="series-thumb-badge-yellow" ${type==='adult'?'style="background:linear-gradient(135deg,#ff0844,#ff4e50);color:#fff;box-shadow:0 0 10px rgba(255,8,68,.6);"':type==='movies'?'style="background:var(--grad-blue);color:#fff;box-shadow:0 0 10px var(--primary-glow);"':''}>${esc(right)}</div>
+        </div>
+        <div class="series-info-body shimmer-card-effect">
+          <div class="series-title-row"><div class="series-main-title">${esc(v.title)}</div><div class="series-share-btn" data-share-id="${esc(v.id)}"><i class="fa-solid fa-share-nodes"></i></div></div>
+          <div class="series-meta-row"><div class="series-chips-group">
+            <span class="series-chip-pill post-date-chip"><i class="fa-regular fa-calendar-days"></i> ${esc(formatPostDate(v.createdAt||v.timestamp||v.date))}</span>
+            <span class="series-chip-pill pill-season"><i class="fa-solid fa-film"></i> ${type==='series'?'HD শেষ':'HD'}</span>
+          </div></div>
+        </div>
+      </div>`;
+    }).join('');
+    if(pag){if(total<=1){pag.style.display='none';pag.innerHTML=''}else{pag.style.display='flex';const nums=Array.from({length:total},(_,i)=>i+1).map(x=>`<button type="button" class="page-pill-btn ${x===p?'active':''}" data-page="${x}" aria-label="Page ${x}">${num(x)}</button>`).join('');pag.innerHTML=`<button type="button" class="page-pill-btn ${p<=1?'disabled':''}" data-page="${p-1}" aria-label="Previous page">‹</button>${nums}<button type="button" class="page-pill-btn ${p>=total?'disabled':''}" data-page="${p+1}" aria-label="Next page">›</button>`}}
+  }
+  function renderAll(){
+    const movie=allLoadedVideos.filter(isMovie), series=allLoadedVideos.filter(isSeries), adult=allLoadedVideos.filter(isAdult);
+    $('movie-total-count').innerText=num(movie.length);$('series-total-count').innerText=num(series.length);$('adult-total-count').innerText=num(adult.length);
+    renderPage('movies',movie);renderPage('series',series);renderPage('adult',adult);
+  }
+
+  async function showMonetag(){
+    const fn=window[AD_NETWORK.sdkName];
+    if(typeof fn!=='function')throw Error('Ad SDK unavailable');
+    const r=await fn();
+    return r===false?false:true;
+  }
+  async function runAd(){return showMonetag();}
+  async function handleCardClick(id){
+    if(adBusy)return; const v=allLoadedVideos.find(x=>String(x.id)===String(id));if(!v)return;
+    const target=targetOf(v);if(!target){showToast(APP_LANG==='bn'?'এই পোস্টের ভিডিও লিংক পাওয়া যায়নি।':'Video link not found.','error');return;}
+    const isFriendPost=String(v._sourceKey||'').startsWith('friend_');const count=isFriendPost?1:getAdCount(v);metricIncrement('totalPostsViewed',1);adBusy=true;const card=$(`video-card-${id}`);card?.classList.add('ad-loading');
+    try{
+      for(let i=0;i<count;i++){showToast(APP_LANG==='bn'?`বিজ্ঞাপন ${num(i+1)}/${num(count)} দেখুন`:`Watch ad ${i+1}/${count}`,'info');const ok=await runAd();if(!ok)throw Error('Ad not completed');metricIncrement('totalAdsViewed',1);}
+      openTelegram(target);
+      return true;
+    }catch(e){console.warn(e);showToast(APP_LANG==='bn'?'বিজ্ঞাপন সম্পূর্ণ হয়নি। আবার চেষ্টা করুন।':'Ad was not completed. Please try again.','error');return false;}
+    finally{card?.classList.remove('ad-loading');adBusy=false;}
+  }
+  function toggleLike(id){
+    const v=allLoadedVideos.find(x=>String(x.id)===String(id));if(!v)return;const was=!!liked[id];liked[id]=!was;v.likes=Math.max(0,Number(v.likes||0)+(was?-1:1));localStorage.setItem('app_user_liked_vids',JSON.stringify(liked));const videoDb=((String(v._sourceKey||'').startsWith('friend_'))?FRIEND_DB:DBS[v._sourceSection])||db;if(videoDb)videoDb.collection('videos').doc(id).update({likes:firebase.firestore.FieldValue.increment(was?-1:1)}).catch(()=>{});const c=$(`card-like-count-${id}`),chip=$(`card-like-chip-${id}`);if(c)c.innerText=num(v.likes);if(chip)chip.classList.toggle('active-liked',!was);haptic('medium');showToast(APP_LANG==='bn'?(was?'লাইক বাতিল করা হয়েছে':'ভিডিওতে লাইক দেওয়া হয়েছে!'):(was?'Like removed':'Video liked!'),was?'info':'success');
+  }
+  function shareVideo(id){const v=allLoadedVideos.find(x=>String(x.id)===String(id));if(!v)return;const u=targetOf(v);const share=`https://t.me/share/url?url=${encodeURIComponent(u)}&text=${encodeURIComponent('🔥 '+v.title)}`;openTelegram(share);}
+
+  function scrollToFirstPost(type){
+    window.scrollTo({top:0,left:0,behavior:'auto'});
+    try{document.documentElement.scrollTop=0;document.body.scrollTop=0;}catch(e){}
+  }
+
+  document.addEventListener('click',e=>{
+    const like=e.target.closest('[data-like-id]');if(like){e.preventDefault();e.stopPropagation();toggleLike(like.dataset.likeId);return;}
+    const share=e.target.closest('[data-share-id]');if(share){e.preventDefault();e.stopPropagation();shareVideo(share.dataset.shareId);return;}
+    const page=e.target.closest('.page-pill-btn[data-page]');if(page&&!page.classList.contains('disabled')){const grid=page.closest('.pagination-container');const id=grid?.id||'';const type=id.startsWith('movie')?'movies':id.startsWith('series')?'series':'adult';currentPage[type]=Math.max(1,Number(page.dataset.page)||1);renderAll();requestAnimationFrame(()=>scrollToFirstPost(type));return;}
+    const card=e.target.closest('.series-card-item');if(card){e.preventDefault();(window.handleCardClick||handleCardClick)(card.dataset.videoId);}
+  },true);
+  document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.closest('.series-card-item')){e.preventDefault();(window.handleCardClick||handleCardClick)(e.target.closest('.series-card-item').dataset.videoId)}});
+
+  const initialVideoSections = new Set(Object.keys(DBS).filter(section=>DBS[section]));
+  const pendingInitialVideoSections = new Set(initialVideoSections);
+  let initialPostsReady = pendingInitialVideoSections.size===0;
+  let initialLoaderHidden = false;
+
+  function revealAfterAllPostsLoaded(){
+    if(initialLoaderHidden || !initialPostsReady) return;
+    initialLoaderHidden=true;
+    renderAll();
+    hidePreloader();
+  }
+
+  function processSnapshot(snap, section){
+    const type = section;
+    const incoming=snap.docs.map(d=>{
+      const x=d.data()||{};
+      return {
+        id:d.id,...x,
+        _sourceSection:section,
+        _sourceKey:section,
+        title:x.title||x.name||'ভিডিও',
+        thumb:x.thumb||x.thumbnail||x.poster||x.imageUrl||x.imageURL||x.image||x.image_url||x.thumbnailUrl||x.thumbnailURL||x.posterUrl||x.posterURL||x.cover||x.coverUrl||'',
+        views:Number(x.views||0),
+        likes:Number(x.likes||0),
+        adCount:x.adCount??x.adsRequired??x.requiredAds,
+        postCategory:x.postCategory||x.post_section||x.sectionCategory||x.category||'new_movie',
+        visible:x.visible !== false,
+        links:x.links||[],
+        timeAgo:x.timeAgo||timeAgo(x.createdAt||x.timestamp||x.date),
+        section:section,
+        type:String(x.type||'').toLowerCase(),
+        category:String(x.category||x.cat||'').toLowerCase()
+      };
+    }).filter(v=>v.visible !== false).sort((a,b)=>{
+      const ta=b.createdAt?.seconds ? b.createdAt.seconds*1000 : (b.createdAt ? new Date(b.createdAt).getTime() : 0);
+      const tb=a.createdAt?.seconds ? a.createdAt.seconds*1000 : (a.createdAt ? new Date(a.createdAt).getTime() : 0);
+      return ta-tb;
+    });
+    allLoadedVideos = allLoadedVideos.filter(v=>(v._sourceKey||v._sourceSection)!==section).concat(incoming);
+    pendingInitialVideoSections.delete(section);
+    if(pendingInitialVideoSections.size===0){
+      initialPostsReady=true;
+      revealAfterAllPostsLoaded();
+    }
+  }
+
+  function applySectionConfig(section,data){
+    if(!data)return;
+    SECTION_CONFIG[section]={...SECTION_CONFIG[section],...data,monetagSdkName:AD_NETWORK.sdkName,monetagZoneId:AD_NETWORK.zoneId,adNetwork:'monetag'};
+    // Keep shared header text behavior while allowing each database to supply its own app settings.
+    if(section==='movies'){
+      APP_CONFIG={...APP_CONFIG,...SECTION_CONFIG[section],monetagSdkName:AD_NETWORK.sdkName,monetagZoneId:AD_NETWORK.zoneId,adNetwork:'monetag'};
+      if($('app-brand-title'))$('app-brand-title').innerText=APP_CONFIG.appName||'অন্ধকার জগৎ';
+      if($('app-header-badge'))$('app-header-badge').innerText=APP_CONFIG.appHeaderBadge||'18+';
+    }
+    renderAll();
+  }
+
+  const FRIEND_POST_PATHS=['videos','posts','adult','Adult','adultVideos','adult_videos','data/videos','data/posts'];
+  const friendSeen = new Map();
+  // Friend posts are eligible from 24 Sep 2026 (Bangladesh time) onward only.
+  const FRIEND_POST_CUTOFF = new Date('2026-09-24T00:00:00+06:00').getTime();
+  function postDateMillis(value){
+    if(value==null||value==='')return 0;
+    if(typeof value==='number')return value<1e12?value*1000:value;
+    if(typeof value==='object'&&typeof value.toDate==='function'){try{return value.toDate().getTime()}catch(e){return 0}}
+    if(typeof value==='object'&&value.seconds!=null)return Number(value.seconds)*1000;
+    const parsed=Date.parse(value);return Number.isFinite(parsed)?parsed:0;
+  }
+  function normalizeFriendPost(id, raw, path='') {
+    const x=raw||{};
+    const linkKeys=['videoUrl','videoURL','videoLink','video_link','telegramUrl','telegramURL','telegramLink','telegram_link','url','link','href','targetUrl','targetURL','botUrl','botURL','botLink','bot_link','video','telegram'];
+    const imageKeys=['thumb','thumbnail','poster','imageUrl','imageURL','image','image_url','thumbnailUrl','thumbnailURL','posterUrl','posterURL','cover','coverUrl','photoUrl','photo_url'];
+    const pick=(keys)=>{for(const k of keys){if(typeof x[k]==='string'&&x[k].trim())return x[k].trim()}return ''};
+    const title=String(x.title||x.name||x.caption||x.videoTitle||'').trim();
+    const videoUrl=pick(linkKeys) || (Array.isArray(x.links)?String(x.links[0]?.url||x.links[0]?.link||x.links[0]||''):'');
+    if(!title && !videoUrl) return null;
+    const date=x.createdAt||x.created_at||x.timestamp||x.date||x.uploadDate||x.uploadedAt||x.postDate||x.dateAdded||x.publishedAt||x.time||0;
+    const dateMs=postDateMillis(date);
+    if(!dateMs||dateMs<FRIEND_POST_CUTOFF)return null;
+    return {id:'friend_'+String(id),...x,title:title||'ভিডিও',thumb:pick(imageKeys),imageUrl:pick(imageKeys),videoUrl,link:videoUrl,url:videoUrl,createdAt:date,visible:x.visible!==false,_sourceSection:'adult',_sourceKey:'friend',_friendPath:path,postCategory:'adult_new',section:'adult',type:String(x.type||'').toLowerCase(),category:String(x.category||'').toLowerCase(),views:Number(x.views||0),likes:Number(x.likes||0),adCount:1};
+  }
+  function collectFriendRtdb(node,path='',out=[]) {
+    if(!node||typeof node!=='object') return out;
+    const rec=normalizeFriendPost(path.split('/').pop()||path,node,path);
+    if(rec){out.push(rec);return out;}
+    Object.keys(node).forEach(k=>collectFriendRtdb(node[k],path?path+'/'+k:k,out));
+    return out;
+  }
+  function upsertFriendPosts(posts,source) {
+    const key='friend_'+source;
+    const normalized=posts.filter(Boolean).map(v=>({...v,_sourceKey:key}));
+    allLoadedVideos=allLoadedVideos.filter(v=>v._sourceKey!==key).concat(normalized);
+    allLoadedVideos.sort((a,b)=>{const val=v=>{const d=v.createdAt; if(d?.seconds)return d.seconds*1000;if(typeof d==='number')return d>1e12?d:d*1000;const n=new Date(d||0).getTime();return Number.isFinite(n)?n:0};return val(b)-val(a)});
+    renderAll();
+  }
+  function listenFriendSources(){
+    if(FRIEND_DB){
+      FRIEND_DB.collection('videos').onSnapshot(snap=>{
+        const posts=snap.docs.map(d=>normalizeFriendPost(d.id,d.data(),'firestore/videos')).filter(Boolean);
+        upsertFriendPosts(posts,'firestore');
+      },err=>{console.warn('Friend Firestore videos unavailable:',err);showToast('বন্ধুর Firestore পোস্ট পড়া যায়নি: '+(err.code||err.message),'error')});
+    }
+    if(FRIEND_RTDB){
+      // Read only likely post collections instead of downloading the entire database root.
+      const rtdbBuckets=new Map();
+      FRIEND_POST_PATHS.forEach(path=>{
+        FRIEND_RTDB.ref(path).on('value',snap=>{
+          const posts=collectFriendRtdb(snap.val(),path);
+          rtdbBuckets.set(path,posts);
+          const dedup=new Map();
+          for(const bucket of rtdbBuckets.values()) for(const v of bucket) dedup.set(String(v.id)+'|'+String(v.videoUrl||v.link||''),v);
+          upsertFriendPosts([...dedup.values()],'rtdb');
+        },err=>console.warn('Friend RTDB path unavailable:',path,err));
+      });
+    }
+  }
+
+  function listen(){
+    Object.keys(DBS).forEach(section=>{
+      const sectionDb=DBS[section];
+      if(!sectionDb)return;
+      sectionDb.collection('settings').doc('app_config').onSnapshot(d=>{
+        if(d.exists)applySectionConfig(section,d.data()||{});
+      },err=>console.warn(`Settings ${section} error`,err));
+      sectionDb.collection('videos').onSnapshot(
+        snap=>{console.log(`[Firebase] ${section}: ${snap.size} video(s) loaded`);processSnapshot(snap,section);},
+        err=>{console.error(`Videos ${section} error`,err);pendingInitialVideoSections.delete(section);if(pendingInitialVideoSections.size===0){initialPostsReady=true;revealAfterAllPostsLoaded();}showToast(APP_LANG==='bn'?`${section} ভিডিও লোড হতে সমস্যা হয়েছে`:`${section} videos failed to load`,'error');}
+      );
+    });
+    listenFriendSources();
+  }
+
+  window.toggleSidebarMenu=toggleSidebarMenu;window.navFromDrawer=navFromDrawer;window.switchNavTab=switchNavTab;window.handleHeroSectionClick=handleHeroSectionClick;window.changeAppLang=changeAppLang;window.goToTelegramChannel=()=>openTelegram('https://t.me/+acMOs-QRzPphNGE1');
+  window.handleCardClick=handleCardClick;window.toggleCardLike=(e,id)=>{e?.stopPropagation();toggleLike(id)};window.shareVideoItem=(e,id)=>{e?.stopPropagation();shareVideo(id)};
+  window.openConfiguredTelegramLink=openConfiguredTelegramLink;window.copyReferCode=copyReferCode;window.copyReferLink=copyReferLink;window.shareReferralLink=shareReferralLink;
+
+  // Preloader is intentionally preserved.
+  function hidePreloader(){setTimeout(()=>{$('app-preloader')?.classList.add('hide-loader');setTimeout(()=>{if($('app-preloader'))$('app-preloader').style.display='none'},550)},500)}
+  renderStatic();
+  try{tg?.ready();tg?.expand()}catch(e){}
+  loadTelegramProfile();
+  recordMiniAppVisit();
+  setTimeout(()=>{loadTelegramProfile();recordMiniAppVisit();},1200);
+  listen();
+  setTimeout(()=>{if(!initialLoaderHidden){initialPostsReady=true;revealAfterAllPostsLoaded();}},20000);
+})();
+
+
+</script>
+
+<!-- Floating Telegram Join control -->
+<style>
+#tg-gate-backdrop{position:fixed;inset:0;z-index:2147483000;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(3,8,23,.22);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);pointer-events:auto}
+#tg-gate-backdrop.open{display:flex;pointer-events:auto;animation:tgFade .22s ease}
+#tg-gate-card{pointer-events:auto;position:relative;width:min(92vw,380px);padding:28px 22px 24px;text-align:center;color:#fff;border:1px solid #48c8ff;border-radius:28px;background:linear-gradient(145deg,rgba(9,26,55,.94),rgba(4,12,30,.94));box-shadow:0 0 0 1px #27baff22,0 15px 50px #0008,0 0 36px #19b9ff2c;backdrop-filter:blur(14px);animation:tgPop .38s cubic-bezier(.2,.9,.25,1.2)}
+#tg-gate-card:before{content:"";position:absolute;inset:-5px;border:1px solid #32baff55;border-radius:32px;pointer-events:none;animation:tgHalo 2.5s ease-in-out infinite}
+.tg-gate-emblem{width:82px;height:82px;margin:0 auto 16px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#40d0ff,#0875cf);box-shadow:0 0 0 7px #21aaff18,0 0 35px #159fff77;animation:tgFloat 2.3s ease-in-out infinite}
+.tg-gate-emblem svg{width:45px;height:45px;fill:white}
+#tg-gate-title{font-size:23px;line-height:1.35;margin:0 0 12px;font-weight:900}
+#tg-gate-card p{font-size:14px;line-height:1.8;color:#d2e5fa;margin:0 0 22px}
+#tg-gate-join{width:100%;min-height:54px;border:0;border-radius:16px;display:flex;align-items:center;justify-content:center;text-decoration:none;font-weight:900;font-size:15px;color:#fff;background:linear-gradient(110deg,#32c5ff,#087bd4);box-shadow:0 9px 28px #078fe955;animation:tgButtonGlow 2s ease-in-out infinite;cursor:pointer}
+#tg-float-join{visibility:hidden;opacity:0;pointer-events:none;transition:opacity .35s ease;position:fixed;right:18px;top:58%;z-index:2147482999;width:62px;height:62px;border:2px solid #fff;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#43d0ff,#1686e0 62%,#075bb8);box-shadow:0 8px 25px #0009,0 0 0 5px #229ed926,0 0 26px #22baffaa;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;animation:tgFloat 2.5s ease-in-out infinite}
+#tg-float-join:before,#tg-float-join:after{content:"";position:absolute;inset:-7px;border:2px solid #2fbfff99;border-radius:50%;animation:tgRipple 2.2s ease-out infinite;pointer-events:none}
+#tg-float-join:after{animation-delay:1.1s}#tg-float-join svg{width:34px;height:34px;fill:#fff;pointer-events:none}#tg-float-join.dragging{animation:none;cursor:grabbing;transform:scale(1.08)}
+@keyframes tgFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}@keyframes tgRipple{0%{transform:scale(.85);opacity:.85}100%{transform:scale(1.55);opacity:0}}@keyframes tgHalo{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:1;transform:scale(1.015)}}@keyframes tgPop{from{opacity:0;transform:translateY(20px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}@keyframes tgFade{from{opacity:0}to{opacity:1}}@keyframes tgButtonGlow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.16)}}
+</style>
+<div id="tg-gate-backdrop" role="dialog" aria-modal="true" aria-labelledby="tg-gate-title"><div id="tg-gate-card"><div class="tg-gate-emblem" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21.8 4.3 18.5 20c-.25 1.1-.9 1.35-1.82.84l-5.05-3.72-2.44 2.35c-.27.27-.5.5-1.03.5l.36-5.13 9.33-8.43c.41-.36-.09-.56-.64-.2L5.64 13.48.65 11.92c-1.08-.34-1.1-1.08.23-1.58L20.4 2.76c.9-.33 1.69.22 1.4 1.54Z"/></svg></div><h2 id="tg-gate-title">আমাদের Telegram চ্যানেলে Join করুন</h2><p>পরের পোস্ট চালু করতে Telegram চ্যানেলে Join করুন।</p><a id="tg-gate-join" href="https://t.me/+acMOs-QRzPphNGE1">✈ Telegram চ্যানেলে Join করুন</a></div></div>
+<button id="tg-float-join" type="button" aria-label="Telegram চ্যানেল খুলুন" title="টেনে সরান • চাপলে চ্যানেল খুলবে"><svg viewBox="0 0 24 24"><path d="M21.8 4.3 18.5 20c-.25 1.1-.9 1.35-1.82.84l-5.05-3.72-2.44 2.35c-.27.27-.5.5-1.03.5l.36-5.13 9.33-8.43c.41-.36-.09-.56-.64-.2L5.64 13.48.65 11.92c-1.08-.34-1.1-1.08.23-1.58L20.4 2.76c.9-.33 1.69.22 1.4 1.54Z"/></svg></button>
+<script>
+(()=>{
+ const CHANNEL='https://t.me/+acMOs-QRzPphNGE1', DONE='tg_channel_join_button_clicked_permanent_v3', FIRST='tg_first_post_completed_v3';
+ const tg=window.Telegram&&window.Telegram.WebApp; const gate=document.getElementById('tg-gate-backdrop'); const join=document.getElementById('tg-gate-join'); const floater=document.getElementById('tg-float-join');
+ const hasDone=()=>{try{return localStorage.getItem(DONE)==='yes'}catch(e){return false}};
+ const showGate=()=>{if(!hasDone())gate.classList.add('open')};
+ const openChannel=()=>{try{if(tg&&typeof tg.openTelegramLink==='function')tg.openTelegramLink(CHANNEL);else {const w=window.open(CHANNEL,'_blank');if(!w)window.location.href=CHANNEL}}catch(e){window.location.href=CHANNEL}};
+ join.addEventListener('click',e=>{e.preventDefault();try{localStorage.setItem(DONE,'yes')}catch(e){}gate.classList.remove('open');openChannel()});
+ let sx=0,sy=0,left=0,top=0,drag=false,moved=false,pid=null;
+ try{const saved=JSON.parse(localStorage.getItem('tg_floater_position_v1')||'null');if(saved&&Number.isFinite(saved.x)&&Number.isFinite(saved.y)){floater.style.left=Math.max(3,Math.min(innerWidth-floater.offsetWidth-3,saved.x))+'px';floater.style.top=Math.max(3,Math.min(innerHeight-floater.offsetHeight-3,saved.y))+'px';floater.style.right='auto';floater.style.bottom='auto'}}catch(_){}
+ floater.addEventListener('pointerdown',e=>{if(e.button!==undefined&&e.button!==0)return;const r=floater.getBoundingClientRect();sx=e.clientX;sy=e.clientY;left=r.left;top=r.top;drag=true;moved=false;pid=e.pointerId;floater.classList.add('dragging');try{floater.setPointerCapture(e.pointerId)}catch(_){}e.preventDefault()});
+ floater.addEventListener('pointermove',e=>{if(!drag||e.pointerId!==pid)return;const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)>5||Math.abs(dy)>5)moved=true;if(moved){floater.style.left=Math.max(3,Math.min(innerWidth-floater.offsetWidth-3,left+dx))+'px';floater.style.top=Math.max(3,Math.min(innerHeight-floater.offsetHeight-3,top+dy))+'px';floater.style.right='auto';floater.style.bottom='auto';try{localStorage.setItem('tg_floater_position_v1',JSON.stringify({x:parseFloat(floater.style.left),y:parseFloat(floater.style.top)}))}catch(_){}}});
+ floater.addEventListener('pointerup',()=>{if(!drag)return;drag=false;floater.classList.remove('dragging');if(!moved){openChannel()}pid=null});floater.addEventListener('pointercancel',()=>{drag=false;floater.classList.remove('dragging');pid=null});
+ const original=window.handleCardClick;
+ if(typeof original==='function')window.handleCardClick=async function(id){if(gate.classList.contains('open'))return false;if(hasDone())return original(id);let first=false;try{first=localStorage.getItem(FIRST)==='yes'}catch(e){}if(first){showGate();return false}const result=await original(id);if(result===true){try{localStorage.setItem(FIRST,'yes')}catch(e){}}return result};
+ // Reveal the draggable Telegram bubble only after the preloader is dismissed and post UI has initialized.
+ const revealFloater=()=>{if(document.getElementById('app-preloader')?.classList.contains('hide-loader')||document.getElementById('app-preloader')?.style.display==='none'){floater.style.visibility='visible';floater.style.opacity='1';floater.style.pointerEvents='auto';return true}return false};
+ const revealTimer=setInterval(()=>{if(revealFloater())clearInterval(revealTimer)},250);
+ window.addEventListener('load',()=>setTimeout(()=>{floater.style.visibility='visible';floater.style.opacity='1';floater.style.pointerEvents='auto'},700),{once:true});
+ if(hasDone())gate.classList.remove('open');
+})();
+</script>
+
+</body>
+</html>
